@@ -1,14 +1,14 @@
 const mario = document.querySelector(".mario");
 const pipe = document.querySelector(".pipe");
-let jumping = false;
+let jumping = false; // Variável Booleana
 
 const jump = () => {
   if (jumping == false) {
     jumping = true;
-    mario.classList.add("jump");
+    mario.classList.add("jump"); // Adição classe de Pulo, durante salto
 
     setTimeout(() => {
-      mario.classList.remove("jump");
+      mario.classList.remove("jump"); // Remoção classe de Pulo, pós salto
       jumping = false; // Desbloqueia o pulo do Mario
     }, 400);
   }
