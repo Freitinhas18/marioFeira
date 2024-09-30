@@ -3,7 +3,8 @@ const pipe = document.querySelector(".pipe");
 const gameOverText = document.querySelector(".game-over-text");
 let jumping = false; // Variável Booleana
 let loop;
-const velocidade = 1.5;
+let velocidade = 1.5;
+let aumentaVel;
 
 const jump = () => {
   if (jumping == false) {
@@ -23,6 +24,13 @@ const iniciarJogo = () => {
   mario.src = "./images/mario.gif";
   mario.style.width = "150px";
   mario.style.marginLeft = "0px";
+
+  aumentaVel = setInterval(() => {
+    // Intervalo de tempo p/ alt. de VELOCIDADE
+    if (velocidade >= 0.4) {
+      velocidade -= 0.0005; // Aceleracao
+    }
+  }, 10); // cada a = 0.00005 x/ms (Ou seja, a cada 10ms a velocidade é aumentada em 0.0005)
 
   loop = setInterval(() => {
     const pipePosition = pipe.offsetLeft;
@@ -48,12 +56,15 @@ const iniciarJogo = () => {
       gameOverText.style.opacity = "100%";
 
       clearInterval(loop);
+      clearInterval(aumentaVel);
     }
   }, 10);
 };
 
 const reiniciar = () => {
   clearInterval(loop);
+  clearInterval(aumentaVel);
+  velocidade = 1.5;
   gameOverText.style.opacity = "0%";
   mario.src = "./images/mario.gif";
   mario.style.width = "150px";
