@@ -17,7 +17,6 @@
     position: absolute;
     bottom: 0;
     width: 80px;
-    animation: pipe-animation 1.5s infinite linear;
 }
 
 .mario {
@@ -58,13 +57,19 @@
     0% {
         bottom: 0;
     }
-    45% {
+    40% {
         bottom: 150px;
+    }
+    45% {
+        bottom: 156px;
     }
     50% {
         bottom: 160px;
     }
     55% {
+        bottom: 156px;
+    }
+    60% {
         bottom: 150px;
     }
     100% {

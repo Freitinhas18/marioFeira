@@ -3,6 +3,7 @@ const pipe = document.querySelector(".pipe");
 const gameOverText = document.querySelector(".game-over-text");
 let jumping = false; // Variável Booleana
 let loop;
+const velocidade = 1.5;
 
 const jump = () => {
   if (jumping == false) {
@@ -18,7 +19,7 @@ const jump = () => {
 
 const iniciarJogo = () => {
   console.log("Iniciado");
-  pipe.style.animation = "pipe-animation 1.5s infinite linear";
+  pipe.style.animation = `pipe-animation ${velocidade}s infinite linear`; // Movimento da PIPE
   mario.src = "./images/mario.gif";
   mario.style.width = "150px";
   mario.style.marginLeft = "0px";
@@ -28,6 +29,10 @@ const iniciarJogo = () => {
     const marioPosition = +window
       .getComputedStyle(mario)
       .bottom.replace("px", "");
+
+    let velocidadeTemp = velocidade;
+    velocidadeTemp -= 0.1;
+    pipe.style.animation = `pipe-animation ${velocidadeTemp}s infinite linear`;
 
     if (pipePosition <= 120 && pipePosition > 0 && marioPosition < 80) {
       pipe.style.animation = "none";
@@ -69,4 +74,8 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-document.addEventListener("keydown", jump);
+document.addEventListener("keydown", (evento) => {
+  if (event.code === "Space") {
+    jump();
+  }
+});
