@@ -1,6 +1,8 @@
 const mario = document.querySelector(".mario");
 const pipe = document.querySelector(".pipe");
 const gameOverText = document.querySelector(".game-over-text");
+const audio = new Audio("audioJump.mp3");
+
 let jumping = false; // Variável Booleana
 let loop;
 let velocidade = 1.5;
@@ -8,13 +10,15 @@ let aumentaVel;
 
 const jump = () => {
   if (jumping == false) {
+    console.log("pulo");
     jumping = true;
+    audio.play();
     mario.classList.add("jump"); // Adição classe de Pulo, durante salto
 
     setTimeout(() => {
       mario.classList.remove("jump"); // Remoção classe de Pulo, pós salto
       jumping = false; // Desbloqueia o pulo do Mario
-    }, 400);
+    }, 500);
   }
 };
 
@@ -27,7 +31,7 @@ const iniciarJogo = () => {
 
   aumentaVel = setInterval(() => {
     // Intervalo de tempo p/ alt. de VELOCIDADE
-    if (velocidade >= 0.4) {
+    if (velocidade >= 0.8) {
       velocidade -= 0.0005; // Aceleracao
     }
   }, 10); // cada a = 0.00005 x/ms (Ou seja, a cada 10ms a velocidade é aumentada em 0.0005)
@@ -41,7 +45,6 @@ const iniciarJogo = () => {
     let velocidadeTemp = velocidade;
     velocidadeTemp -= 0.1;
     pipe.style.animation = `pipe-animation ${velocidadeTemp}s infinite linear`;
-
     if (pipePosition <= 120 && pipePosition > 0 && marioPosition < 80) {
       pipe.style.animation = "none";
       pipe.style.left = `${pipePosition}px`;
