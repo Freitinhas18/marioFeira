@@ -8,6 +8,10 @@ let loop;
 let velocidade = 1.5;
 let aumentaVel;
 
+let score;
+let aumentaScore;
+const scoreHTML = document.querySelector(".score");
+
 const jump = () => {
   if (jumping == false) {
     console.log("pulo");
@@ -29,9 +33,17 @@ const iniciarJogo = () => {
   mario.style.width = "150px";
   mario.style.marginLeft = "0px";
 
+  score = 0;
+  scoreHTML.textContent = `Pontuação: ${score}`;
+
+  aumentaScore = setInterval(() => {
+    score += 1;
+    scoreHTML.textContent = `Pontuação: ${score}`;
+  }, 100);
+
   aumentaVel = setInterval(() => {
     // Intervalo de tempo p/ alt. de VELOCIDADE
-    if (velocidade >= 0.8) {
+    if (velocidade >= 1) {
       velocidade -= 0.0005; // Aceleracao
     }
   }, 10); // cada a = 0.00005 x/ms (Ou seja, a cada 10ms a velocidade é aumentada em 0.0005)
@@ -60,6 +72,7 @@ const iniciarJogo = () => {
 
       clearInterval(loop);
       clearInterval(aumentaVel);
+      clearInterval(aumentaScore);
     }
   }, 10);
 };
@@ -67,6 +80,7 @@ const iniciarJogo = () => {
 const reiniciar = () => {
   clearInterval(loop);
   clearInterval(aumentaVel);
+  clearInterval(aumentaScore);
   velocidade = 1.5;
   gameOverText.style.opacity = "0%";
   mario.src = "./images/mario.gif";
