@@ -43,6 +43,19 @@
     opacity: 0%;
 }
 
+.score {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 24px;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
 @keyframes pipe-animation {
     from {
         right: -80px;
