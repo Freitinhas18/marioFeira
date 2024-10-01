@@ -1,7 +1,8 @@
 const mario = document.querySelector(".mario");
 const pipe = document.querySelector(".pipe");
 const gameOverText = document.querySelector(".game-over-text");
-const audio = new Audio("audioJump.mp3");
+const audioJump = new Audio("sounds/audioJump.mp3");
+const audioDeath = new Audio("sounds/death.mp3");
 
 let jumping = false; // Variável Booleana
 let loop;
@@ -16,7 +17,7 @@ const jump = () => {
   if (jumping == false) {
     console.log("pulo");
     jumping = true;
-    audio.play();
+    audioJump.play();
     mario.classList.add("jump"); // Adição classe de Pulo, durante salto
 
     setTimeout(() => {
@@ -69,7 +70,7 @@ const iniciarJogo = () => {
       mario.style.marginLeft = "50px";
 
       gameOverText.style.opacity = "100%";
-
+      audioDeath.play();
       clearInterval(loop);
       clearInterval(aumentaVel);
       clearInterval(aumentaScore);
