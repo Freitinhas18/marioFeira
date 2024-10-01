@@ -1,10 +1,13 @@
+"use strict";
 const mario = document.querySelector(".mario");
+const marioStart = document.querySelector(".marioStart");
 const pipe = document.querySelector(".pipe");
 const gameOverText = document.querySelector(".game-over-text");
 const audioJump = new Audio("sounds/audioJump.mp3");
 const audioDeath = new Audio("sounds/death.mp3");
+const audioStart = new Audio("sounds/its-me-mario.mp3");
 
-let jumping = false; // Variável Booleana
+let jumping = false;
 let loop;
 let velocidade = 1.5;
 let aumentaVel;
@@ -12,6 +15,8 @@ let aumentaVel;
 let score;
 let aumentaScore;
 const scoreHTML = document.querySelector(".score");
+
+let started = false; // Funcao p/ verificar se jogo foi iniciado
 
 const jump = () => {
   if (jumping == false) {
@@ -31,7 +36,7 @@ const iniciarJogo = () => {
   console.log("Iniciado");
   pipe.style.animation = `pipe-animation ${velocidade}s infinite linear`; // Movimento da PIPE
   mario.src = "./images/mario.gif";
-  mario.style.width = "150px";
+
   mario.style.marginLeft = "0px";
 
   score = 0;
@@ -87,24 +92,49 @@ const reiniciar = () => {
   mario.src = "./images/mario.gif";
   mario.style.width = "150px";
   mario.style.marginLeft = "0px";
-  mario.style.bottom = "0px";
+  mario.style.bottom = "50px";
   mario.style.animation = "";
   pipe.style.left = "unset";
   iniciarJogo();
 };
 
-// Chamada de Funções para Início e Reset do jogo
-
-iniciarJogo(); // Função p/ efetivamente iniciar Jogo
-
-document.addEventListener("keydown", (event) => {
-  if (event.code === "Enter") {
-    reiniciar();
-  }
+// Chamada de funções
+let easterEgg;
+let contador = 0;
+let marioSize = 0;
+easterEgg = setInterval(() => {
+  contador += 1;
+  console.log(contador + " Tamanho do mario: " + marioSize);
+  marioSize = Math.floor(Math.random() * 600) + 10;
+  marioStart.style.width = `${marioSize}px`;
+}, 5000);
+let groundImage = "";
+for (let i = 0; i <= 23; i++) {
+  groundImage += "<img src='./images/ground.jpg' class='ground-img' />";
+}
+$(document).ready(function () {
+  $(".ground").append(groundImage);
 });
+document.addEventListener("keydown", (event) => {
+  if (!started) {
+    clearInterval(easterEgg);
+    // se jogo nao tiver iniciado -> iniciar
+    const startScreen = document.querySelector(".start");
+    startScreen.style.display = "none";
+    audioStart.play();
 
-document.addEventListener("keydown", (evento) => {
-  if (event.code === "Space") {
-    jump();
+    $(document).ready(function () {
+      $(".start").empty();
+      $(".game-board-ground").append(groundImage);
+    });
+    iniciarJogo();
+    started = true;
+  } else {
+    // senão -> reiniciar
+    if (event.code === "Enter") {
+      reiniciar();
+    } else if (event.code === "Space") {
+      jump();
+    }
   }
 });

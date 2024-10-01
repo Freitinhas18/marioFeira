@@ -5,15 +5,29 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="./css/style.css" />
         <title>Mario</title>
+        <script
+            src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"
+        ></script>
     </head>
     <body>
+        <div class="start">
+            <h1 class="mb-4">Nome Jogo</h1>
+            <p>>Press any key to continue...</p>
+            <img src="./images/mario.gif" class="marioStart" />
+            <div class="ground"></div>
+        </div>
+
         <div class="game-board">
             <img src="./images/clouds.png" class="clouds" />
             <img src="./images/pipe.png" class="pipe" />
             <img src="./images/mario.gif" class="mario" />
             <img src="./images/game-over-text.png" class="game-over-text" />
+            <div class="game-board-ground"></div>
             <div class="score">Pontuação: 0</div>
         </div>
         <script defer src="./js/script.js"></script>
+        <script></script>
     </body>
 </html>
