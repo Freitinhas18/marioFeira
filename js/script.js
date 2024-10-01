@@ -2,11 +2,11 @@ const mario = document.querySelector(".mario");
 const pipe = document.querySelector(".pipe");
 const gameOverText = document.querySelector(".game-over-text");
 const audio = new Audio("audioJump.mp3");
+const scoreDisplay = document.querySelector(".score");
 
 let jumping = false; // Variável Booleana
 let loop;
-let velocidade = 1.5;
-let aumentaVel;
+let score = 0; // Inicia a pontuação em 0
 
 let score;
 let aumentaScore;
@@ -18,7 +18,6 @@ const jump = () => {
     jumping = true;
     audio.play();
     mario.classList.add("jump"); // Adição classe de Pulo, durante salto
-
     setTimeout(() => {
       mario.classList.remove("jump"); // Remoção classe de Pulo, pós salto
       jumping = false; // Desbloqueia o pulo do Mario
@@ -28,7 +27,7 @@ const jump = () => {
 
 const iniciarJogo = () => {
   console.log("Iniciado");
-  pipe.style.animation = `pipe-animation ${velocidade}s infinite linear`; // Movimento da PIPE
+  pipe.style.animation = "pipe-animation 1.5s infinite linear";
   mario.src = "./images/mario.gif";
   mario.style.width = "150px";
   mario.style.marginLeft = "0px";
@@ -47,6 +46,8 @@ const iniciarJogo = () => {
       velocidade -= 0.0005; // Aceleracao
     }
   }, 10); // cada a = 0.00005 x/ms (Ou seja, a cada 10ms a velocidade é aumentada em 0.0005)
+  score = 0; // Reseta a pontuação ao iniciar o jogo
+  scoreDisplay.textContent = `Pontuação: ${score}`; // Atualiza a exibição da pontuação
 
   loop = setInterval(() => {
     const pipePosition = pipe.offsetLeft;
@@ -57,6 +58,7 @@ const iniciarJogo = () => {
     let velocidadeTemp = velocidade;
     velocidadeTemp -= 0.1;
     pipe.style.animation = `pipe-animation ${velocidadeTemp}s infinite linear`;
+
     if (pipePosition <= 120 && pipePosition > 0 && marioPosition < 80) {
       pipe.style.animation = "none";
       pipe.style.left = `${pipePosition}px`;
@@ -73,6 +75,7 @@ const iniciarJogo = () => {
       clearInterval(loop);
       clearInterval(aumentaVel);
       clearInterval(aumentaScore);
+
     }
   }, 10);
 };
@@ -102,8 +105,4 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-document.addEventListener("keydown", (evento) => {
-  if (event.code === "Space") {
-    jump();
-  }
-});
+document.addEventListener("keydown", jump);

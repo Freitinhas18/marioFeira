@@ -62,6 +62,8 @@
     border: 1px solid black;
 }
 
+
+
 @keyframes pipe-animation {
     from {
         right: -80px;
