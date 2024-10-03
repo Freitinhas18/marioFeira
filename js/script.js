@@ -118,8 +118,7 @@ const iniciarJogo = () => {
       clearInterval(loop);
       clearInterval(aumentaVel);
       clearInterval(aumentaScore);
-      clearInterval(acelerar);
-      clearInterval(retardar);
+     
     }
   }, 10);
 };
