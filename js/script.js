@@ -83,6 +83,32 @@ const iniciarJogo = () => {
   }, 10);
 };
 
+// Função para gerar o chão contínuo
+function gerarChao(groundElement) {
+  const groundImgWidth = 64; // Largura da imagem do chão (em pixels) - Ajuste conforme necessário
+  const screenWidth = window.innerWidth; // Largura da tela
+  const numImgs = Math.ceil(screenWidth / groundImgWidth) + 1; // Calcula quantas imagens são necessárias
+
+  let groundImage = "";
+  for (let i = 0; i < numImgs; i++) {
+    groundImage += "<img src='./images/ground.jpg' class='ground-img' />";
+  }
+  $(groundElement).html(groundImage); // Adiciona as imagens no elemento do chão
+}
+
+// Quando o documento estiver pronto, gera o chão nas telas de início e do jogo
+$(document).ready(function () {
+  gerarChao(".start-ground"); // Gera o chão da tela inicial
+  gerarChao(".game-board-ground"); // Gera o chão do jogo
+});
+
+// Recalcular o chão quando a tela for redimensionada
+window.addEventListener("resize", function() {
+  gerarChao(".start-ground");
+  gerarChao(".game-board-ground");
+});
+
+
 const reiniciar = () => {
   clearInterval(loop);
   clearInterval(aumentaVel);
@@ -113,8 +139,12 @@ for (let i = 0; i <= 23; i++) {
   groundImage += "<img src='./images/ground.jpg' class='ground-img' />";
 }
 $(document).ready(function () {
-  $(".ground").append(groundImage);
-});
+  // Para o chão da tela de início
+  $(".start-ground").append(groundImage);
+
+  // Para o chão do jogo
+  $(".game-board-ground").append(groundImage);
+}); 
 document.addEventListener("keydown", (event) => {
   if (!started) {
     clearInterval(easterEgg);
