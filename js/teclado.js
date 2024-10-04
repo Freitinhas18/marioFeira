@@ -12,21 +12,21 @@ function updateSelection() {
 
 // Função que lida com o pressionamento de teclas
 function handleKeydown(event) {
-    const cols = 10;
+    const cols = 10; // Número de teclas por linha
 
     if (event.key === 'ArrowRight') {
-        selectedIndex = (selectedIndex + 1) % keys.length;
+        selectedIndex = (selectedIndex + 1) % keys.length; // Move para a direita
     } else if (event.key === 'ArrowLeft') {
-        selectedIndex = (selectedIndex - 1 + keys.length) % keys.length;
+        selectedIndex = (selectedIndex - 1 + keys.length) % keys.length; // Move para a esquerda
     } else if (event.key === 'ArrowDown') {
-        selectedIndex = (selectedIndex + cols) % keys.length;
+        selectedIndex = (selectedIndex + cols) % keys.length; // Move para baixo
     } else if (event.key === 'ArrowUp') {
-        selectedIndex = (selectedIndex - cols + keys.length) % keys.length;
+        selectedIndex = (selectedIndex - cols + keys.length) % keys.length; // Move para cima
     } else if (event.key === 'Enter') {
         handleEnter(); // Chama a função para lidar com a tecla Enter
     }
 
-    updateSelection();
+    updateSelection(); // Atualiza a seleção visual
 }
 
 // Função para adicionar a letra ou executar ação de backspace ou enviar
@@ -38,10 +38,11 @@ function handleEnter() {
         // Remove a última letra do campo de texto
         inputField.value = inputField.value.slice(0, -1); 
     } else if (selectedKey.classList.contains('send-button')) {
-        // Redireciona para a página game.html
-        window.location.href = 'game.html'; 
+        // Submete o formulário (simula o envio)
+        document.querySelector('form').submit(); 
     } else {
-        inputField.value += selectedKey.textContent; // Adiciona a letra selecionada ao campo de texto
+        // Adiciona a letra ao campo de texto
+        inputField.value += selectedKey.textContent.trim();
     }
 }
 
@@ -56,10 +57,11 @@ keys.forEach((key, index) => {
             // Remove a última letra do campo de texto
             inputField.value = inputField.value.slice(0, -1);
         } else if (key.classList.contains('send-button')) {
-            // Redireciona para a página game.html
-            window.location.href = 'game.html'; 
+            // Submete o formulário (simula o envio)
+            document.querySelector('form').submit();
         } else {
-            inputField.value += key.textContent; // Adiciona a letra ao campo
+            // Adiciona a letra ao campo
+            inputField.value += key.textContent.trim();
         }
 
         selectedIndex = index; // Atualiza a seleção
