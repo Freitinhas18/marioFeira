@@ -36,7 +36,8 @@
     font-size: 1.7rem;
     font-family: Monocraft;
 }
-.ground, .game-board-ground {
+.ground,
+.game-board-ground {
     display: flex;
     flex-direction: row;
     position: absolute;
@@ -45,7 +46,7 @@
     animation: moveGround 5s linear infinite; /* Animação contínua */
 }
 
-.ground-img{
+.ground-img {
     width: 4rem; /* Tamanho da imagem do chão */
     flex-shrink: 0; /* Impede que as imagens encolham */
 }
@@ -119,9 +120,20 @@
     z-index: 11;
 }
 
+.hearts {
+    position: absolute;
+    top: 1%;
+    left: 7%;
+    z-index: 11;
+}
+.heart {
+    width: 5rem;
+    margin-left: -2.3rem;
+}
 
 /* Animação para mover o chão */
-.start-ground, .game-board-ground {
+.start-ground,
+.game-board-ground {
     display: flex;
     flex-direction: row;
     position: absolute;
@@ -135,7 +147,6 @@
     width: 4rem;
 }
 
-
 @keyframes moveGround {
     from {
         transform: translateX(0);
@@ -144,7 +155,6 @@
         transform: translateX(-100%); /* Mover todo o chão */
     }
 }
-
 
 @keyframes start-mario-animation {
     from {
