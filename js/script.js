@@ -48,7 +48,7 @@ let jumping = false;
 let loop;
 let aumentaVel;
 let diminuiVel;
-let vidas = 3;
+let vidas = 0;
 // basicamente uma variável para impedir que o jogador pressione "Enter" múltiplas vezes
 let podeReiniciar = false;
 
@@ -108,30 +108,36 @@ const acelerar = () => {
 
 const retardar = () => {
   diminuiVel = setInterval(() => {
-    if (!(velocidade > 1.7)) {
+    if (!(velocidade > 1.4)) {
       velocidade += 0.0005; // Movimento Retardado
     } else {
-      setTimeout(() => {
-        clearInterval(diminuiVel);
-        acelerar();
-      }, 3000);
+      clearInterval(diminuiVel);
+      acelerar();
     }
   }, 10);
 };
 
 const adicionaVida = (qntvidas) => {
+  vidas = vidas + qntvidas;
+
   let heart = "";
   for (let j = 1; j <= vidas; j++) {
-    heart += `<img src='./images/heart.png' class='heart n${j}'></img>`;
+    heart += `<img src='./images/heart.png' class='heart n${j}' alt='Coração'>`;
   }
+
+  // Atualiza a exibição de vidas
   $(".hearts").html(heart);
 };
 
-const tiraVida = (vidas) => {
-  adicionaVida(vidas);
-  $(`.hearts`).append(
-    `<img src='./images/heart-broken.png' class='heart'></img>`,
-  );
+const tiraVida = () => {
+  if (vidas > 0) {
+    // Garante que não subtraia vidas abaixo de zero
+    vidas -= 1;
+    adicionaVida(0); // Atualiza a exibição após perder uma vida
+    $(".hearts").append(
+      `<img src='./images/heart-broken.png' class='heart' alt='Coração Quebrado'>`,
+    );
+  }
 };
 
 const iniciarJogo = () => {
@@ -140,7 +146,6 @@ const iniciarJogo = () => {
   score = 0;
   velocidade = 1.5;
   acelerar();
-  adicionaVida(3);
 
   scoreHTML.textContent = `Pontuação: ${score}`;
 
@@ -166,25 +171,27 @@ const iniciarJogo = () => {
 
     pipe.style.animation = `pipe-animation ${velocidade}s infinite linear`;
     if (pipePosition <= 120 && pipePosition > 0 && marioPosition < 80) {
-      vidas -= 1;
+      console.log("Quantidade de vidas atual: " + vidas);
+
       pipe.style.animation = "none";
       pipe.style.left = `${pipePosition}px`;
-
       mario.style.animation = "none";
       mario.style.bottom = `${marioPosition}px`;
-
       mario.src = "./images/game-over.png";
       mario.style.width = "75px";
       mario.style.marginLeft = "50px";
-
       gameOverText.style.opacity = "100%";
+
       audioBackground.pause();
       audioJump.muted = true;
       audioDeath.play();
       podeReiniciar = true;
+
+      tiraVida(1);
       clearInterval(loop);
       clearInterval(aumentaScore);
-      tiraVida(vidas);
+      clearInterval(acelerar);
+      clearInterval(retardar);
     }
   }, 10);
 };
@@ -264,6 +271,8 @@ document.addEventListener("keydown", (event) => {
     });
     iniciarJogo();
     started = true;
+    adicionaVida(50);
+    console.log("Quantidade de vidas atual: " + vidas);
   } else {
     // senão -> reiniciar
 
