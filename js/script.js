@@ -57,23 +57,24 @@ const acelerar = () => {
 
 const retardar = () => {
   diminuiVel = setInterval(() => {
-    if (!(velocidade > 1.6)) {
+    if (!(velocidade > 1.7)) {
       velocidade += 0.0005; // Movimento Retardado
     } else {
-      clearInterval(diminuiVel);
-      acelerar();
+      setTimeout(() => {
+        clearInterval(diminuiVel);
+        acelerar();
+      }, 3000);
     }
   }, 10);
 };
 
 const iniciarJogo = () => {
-  console.log("Iniciado");
-
   // Definições de controle
   podeReiniciar = false;
   score = 0;
   velocidade = 1.5;
   acelerar();
+
   scoreHTML.textContent = `Pontuação: ${score}`;
 
   // Definições de áudio pré início
@@ -116,10 +117,7 @@ const iniciarJogo = () => {
       podeReiniciar = true;
 
       clearInterval(loop);
-      clearInterval(aumentaVel);
       clearInterval(aumentaScore);
-      clearInterval(acelerar);
-      clearInterval(retardar);
     }
   }, 10);
 };
@@ -147,6 +145,7 @@ const reiniciar = () => {
     mario.style.animation = "";
     pipe.style.left = "unset";
     iniciarJogo();
+    acelerar();
   } else {
     gameOver(); // chamada de função de game over
   }
