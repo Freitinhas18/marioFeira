@@ -1,4 +1,37 @@
 "use strict";
+/* Segue abaixo modelo de objeto para exibir ao final no ranking */
+const ranking = [
+  {
+    id: 1,
+    nome: "Pedro Camilo",
+    telefone: "(11) 99999-9999",
+    instagram: "@pedro",
+    pontuacao: 99999,
+  },
+  {
+    id: 2,
+    nome: "Rebello",
+    telefone: "(11) 99999-9999",
+    instagram: "@rebello",
+    pontuacao: 99999,
+  },
+  {
+    id: 3,
+    nome: "Duds",
+    telefone: "(11) 99999-9999",
+    instagram: "@doodis",
+    pontuacao: 99999,
+  },
+  {
+    id: 4,
+    nome: "Iguin",
+    telefone: "(11) 99999-9999",
+    instagram: "@igin",
+    pontuacao: 99999,
+  },
+];
+// FIM DO OBJETO DE EXEMPLO
+
 const mario = document.querySelector(".mario");
 const marioStart = document.querySelector(".marioStart");
 const pipe = document.querySelector(".pipe");
@@ -30,6 +63,24 @@ audioBackground.loop = true;
 audioBackground.volume = 0.7;
 audioJump.volume = 0.5;
 let velocidade = 1.5;
+
+const gameOver = (ranking) => {
+  podeReiniciar = false;
+  $(".ranking").modal("show");
+  const tbody = $("#tbody");
+  tbody.empty();
+  ranking.forEach((item, index) => {
+    tbody.append(`
+                  <tr>
+                      <th scope="row">${index + 1}</th>
+                      <td>${item.nome}</td>
+                      <td>${item.telefone}</td>
+                      <td>${item.instagram}</td>
+                      <td>${item.pontuacao}</td>
+                  </tr>
+              `);
+  });
+};
 
 const jump = () => {
   if (jumping == false) {
@@ -68,12 +119,28 @@ const retardar = () => {
   }, 10);
 };
 
+const adicionaVida = (qntvidas) => {
+  let heart = "";
+  for (let j = 1; j <= vidas; j++) {
+    heart += `<img src='./images/heart.png' class='heart n${j}'></img>`;
+  }
+  $(".hearts").html(heart);
+};
+
+const tiraVida = (vidas) => {
+  adicionaVida(vidas);
+  $(`.hearts`).append(
+    `<img src='./images/heart-broken.png' class='heart'></img>`,
+  );
+};
+
 const iniciarJogo = () => {
   // Definições de controle
   podeReiniciar = false;
   score = 0;
   velocidade = 1.5;
   acelerar();
+  adicionaVida(3);
 
   scoreHTML.textContent = `Pontuação: ${score}`;
 
@@ -115,9 +182,9 @@ const iniciarJogo = () => {
       audioJump.muted = true;
       audioDeath.play();
       podeReiniciar = true;
-
       clearInterval(loop);
       clearInterval(aumentaScore);
+      tiraVida(vidas);
     }
   }, 10);
 };
@@ -147,10 +214,11 @@ const reiniciar = () => {
     iniciarJogo();
     acelerar();
   } else {
-    gameOver(); // chamada de função de game over
+    // chamada de função de game over, que recebe como parâmetros o ranking
+    // do banco de dados para então exibi-los
+    gameOver(ranking);
   }
 };
-
 // Chamada de funções
 // Quando o documento estiver pronto, gera o chão nas telas de início e do jogo
 $(document).ready(function () {
