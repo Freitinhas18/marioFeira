@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teclado Virtual</title>
-    <link rel="stylesheet" href="css/teclado.css">
+    <link rel="stylesheet" href="./assets/css/teclado.css">
 </head>
 <body>
     <div class="keyboard-container">
-        <!-- Formulário que enviará os dados para o PHP -->
-        <form action="controller/ranking.php" method="POST">
+        <form action="../controller/ranking.php" method="POST">
             <input type="text" id="selectedLetter" name="selectedLetter" readonly placeholder="Digite o nome" />
-            
+
             <div class="keyboard" id="keyboard">
                 <div class="key">Q</div>
                 <div class="key">W</div>
@@ -42,15 +41,15 @@
                 <div class="key">N</div>
                 <div class="key">M</div>
                 <div class="key backspace-button">
-                    <img src="images/x-lg.svg" alt="Backspace">
+                    <img src="./assets/images/x-lg.svg" alt="Backspace">
                 </div>
                 <!-- Botão Enviar -->
                 <button type="submit" class="key send-button">
-                    <img src="images/box-arrow-in-right.svg" alt="Enviar">
-                </button> 
+                    <img src="./assets/images/box-arrow-in-right.svg" alt="Enviar">
+                </button>
             </div>
         </form>
     </div>
-    <script src="js/teclado.js"></script>
+    <script src="./assets/js/teclado.js"></script>
 </body>
 </html>

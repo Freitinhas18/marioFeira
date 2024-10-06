@@ -39,10 +39,10 @@ const gameOverText = document.querySelector(".game-over-text");
 let groundImage;
 
 // Importação de áudios
-const audioJump = new Audio("sounds/audioJump.mp3");
-const audioDeath = new Audio("sounds/death.mp3");
-const audioStart = new Audio("sounds/its-me-mario.mp3");
-const audioBackground = new Audio("sounds/background.mp3");
+const audioJump = new Audio("./assets/sounds/audioJump.mp3");
+const audioDeath = new Audio("./assets/sounds/death.mp3");
+const audioStart = new Audio("./assets/sounds/its-me-mario.mp3");
+const audioBackground = new Audio("./assets/sounds/background.mp3");
 // Variáveis de controle
 let jumping = false;
 let loop;
@@ -97,16 +97,16 @@ const jump = () => {
 
 const acelerar = () => {
   aumentaVel = setInterval(() => {
-    if (velocidade > 1.1) {
+    if (velocidade > 0.95) {
       velocidade -= 0.0005; // Movimento Acelerado
     } else {
       clearInterval(aumentaVel);
-      retardar();
+      //retardar();
     }
-  }, 10);
+  }, 100);
 };
 
-const retardar = () => {
+/*const retardar = () => {
   diminuiVel = setInterval(() => {
     if (!(velocidade > 1.4)) {
       velocidade += 0.0005; // Movimento Retardado
@@ -116,13 +116,14 @@ const retardar = () => {
     }
   }, 10);
 };
+*/
 
 const adicionaVida = (qntvidas) => {
   vidas = vidas + qntvidas;
 
   let heart = "";
   for (let j = 1; j <= vidas; j++) {
-    heart += `<img src='./images/heart.png' class='heart n${j}' alt='Coração'>`;
+    heart += `<img src='./assets/images/heart.png' class='heart n${j}' alt='Coração'>`;
   }
 
   // Atualiza a exibição de vidas
@@ -135,7 +136,7 @@ const tiraVida = () => {
     vidas -= 1;
     adicionaVida(0); // Atualiza a exibição após perder uma vida
     $(".hearts").append(
-      `<img src='./images/heart-broken.png' class='heart' alt='Coração Quebrado'>`,
+      `<img src='./assets/images/heart-broken.png' class='heart' alt='Coração Quebrado'>`,
     );
   }
 };
@@ -154,7 +155,7 @@ const iniciarJogo = () => {
   audioJump.muted = false;
 
   pipe.style.animation = `pipe-animation ${velocidade}s infinite linear`; // Movimento da PIPE
-  mario.src = "./images/mario.gif";
+  mario.src = "./assets/images/mario.gif";
 
   mario.style.marginLeft = "0px";
 
@@ -177,8 +178,7 @@ const iniciarJogo = () => {
       pipe.style.left = `${pipePosition}px`;
       mario.style.animation = "none";
       mario.style.bottom = `${marioPosition}px`;
-      mario.src = "./images/game-over.png";
-      mario.style.width = "75px";
+      mario.src = "./assets/images/game-over.png";
       mario.style.marginLeft = "50px";
       gameOverText.style.opacity = "100%";
 
@@ -187,11 +187,13 @@ const iniciarJogo = () => {
       audioDeath.play();
       podeReiniciar = true;
 
+      mario.style.width = "75px";
       tiraVida(1);
       clearInterval(loop);
       clearInterval(aumentaScore);
       clearInterval(acelerar);
-      clearInterval(retardar);
+      //clearInterval(retardar);
+      console.log(velocidade)
     }
   }, 10);
 };
@@ -204,7 +206,7 @@ function gerarChao(groundElement) {
 
   let groundImage = "";
   for (let i = 0; i < numImgs; i++) {
-    groundImage += "<img src='./images/ground.jpg' class='ground-img' />";
+    groundImage += "<img src='./assets/images/ground.jpg' class='ground-img' />";
   }
   $(groundElement).html(groundImage); // Adiciona as imagens no elemento do chão
 }
@@ -212,7 +214,7 @@ function gerarChao(groundElement) {
 const reiniciar = () => {
   if (vidas != 0) {
     gameOverText.style.opacity = "0%";
-    mario.src = "./images/mario.gif";
+    mario.src = "./assets/images/mario.gif";
     mario.style.width = "150px";
     mario.style.marginLeft = "0px";
     mario.style.bottom = "50px";
@@ -229,29 +231,16 @@ const reiniciar = () => {
 // Chamada de funções
 // Quando o documento estiver pronto, gera o chão nas telas de início e do jogo
 $(document).ready(function () {
-  gerarChao(".start-ground"); // Gera o chão da tela inicial
   gerarChao(".game-board-ground"); // Gera o chão do jogo
 });
 
 // Recalcular o chão quando a tela for redimensionada
 window.addEventListener("resize", function () {
-  gerarChao(".start-ground");
   gerarChao(".game-board-ground");
 });
-let easterEgg;
-let contador = 0;
-let marioSize = 0;
-
-easterEgg = setInterval(() => {
-  contador += 1;
-  console.log(contador + " Tamanho do mario: " + marioSize);
-  marioSize = Math.floor(Math.random() * 600) + 10;
-  marioStart.style.width = `${marioSize}px`;
-}, 5090);
 
 $(document).ready(function () {
-  // Para o chão da tela de início
-  $(".start-ground").append(groundImage);
+
 
   // Para o chão do jogo
   $(".game-board-ground").append(groundImage);
@@ -259,8 +248,7 @@ $(document).ready(function () {
 
 document.addEventListener("keydown", (event) => {
   if (!started) {
-    clearInterval(easterEgg);
-    // se jogo nao tiver iniciado -> iniciar
+
     const startScreen = document.querySelector(".start");
     startScreen.style.display = "none";
     audioStart.play();
@@ -271,15 +259,16 @@ document.addEventListener("keydown", (event) => {
     });
     iniciarJogo();
     started = true;
-    adicionaVida(50);
+    adicionaVida(5);
     console.log("Quantidade de vidas atual: " + vidas);
+
   } else {
     // senão -> reiniciar
 
-    if (event.code === "Enter" && podeReiniciar) {
-      reiniciar();
-    } else if (event.code === "Space") {
+    if (event.code === "Space") {
       jump();
+    } else if (event.code === "Enter" && podeReiniciar) {
+      reiniciar();
     }
   }
 });
