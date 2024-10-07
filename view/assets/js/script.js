@@ -21,15 +21,7 @@ const ranking = [
     telefone: "(11) 99999-9999",
     instagram: "@doodis",
     pontuacao: 99999,
-  },
-  {
-    id: 4,
-    nome: "Iguin",
-    telefone: "(11) 99999-9999",
-    instagram: "@igin",
-    pontuacao: 99999,
-  },
-];
+  },];
 // FIM DO OBJETO DE EXEMPLO
 
 const mario = document.querySelector(".mario");
@@ -193,7 +185,7 @@ const iniciarJogo = () => {
       clearInterval(aumentaScore);
       clearInterval(acelerar);
       //clearInterval(retardar);
-      console.log(velocidade)
+      console.log(velocidade);
     }
   }, 10);
 };
@@ -206,7 +198,8 @@ function gerarChao(groundElement) {
 
   let groundImage = "";
   for (let i = 0; i < numImgs; i++) {
-    groundImage += "<img src='./assets/images/ground.jpg' class='ground-img' />";
+    groundImage +=
+      "<img src='./assets/images/ground.jpg' class='ground-img' />";
   }
   $(groundElement).html(groundImage); // Adiciona as imagens no elemento do chão
 }
@@ -240,15 +233,12 @@ window.addEventListener("resize", function () {
 });
 
 $(document).ready(function () {
-
-
   // Para o chão do jogo
   $(".game-board-ground").append(groundImage);
 });
 
 document.addEventListener("keydown", (event) => {
   if (!started) {
-
     const startScreen = document.querySelector(".start");
     startScreen.style.display = "none";
     audioStart.play();
@@ -259,9 +249,8 @@ document.addEventListener("keydown", (event) => {
     });
     iniciarJogo();
     started = true;
-    adicionaVida(5);
+    adicionaVida(4);
     console.log("Quantidade de vidas atual: " + vidas);
-
   } else {
     // senão -> reiniciar
 
