@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
     height: 100%;
     margin: 0;
     display: flex;
@@ -8,22 +9,22 @@ body, html {
     font-family: Arial, sans-serif;
 }
 
-.keyboard-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    max-width: 800px;
-    height: 100%;
-    justify-content: center;
-}
-
 .keyboard {
     display: grid;
     grid-template-columns: repeat(10, 1fr); /* 10 colunas no total */
     grid-gap: 10px;
     margin-bottom: 20px;
     width: 100%;
+    height: 60%;
+    padding: 10px;
+}
+.keyboard-number {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 10 colunas no total */
+    grid-gap: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 440px;
     height: 60%;
     padding: 10px;
 }
@@ -86,8 +87,9 @@ input[type="text"] {
     pointer-events: none; /* Ignora eventos de mouse na imagem */
 }
 
-.send-button, .backspace-button {
-    background-color: #28a745;
+.send-button,
+.backspace-button {
+    background-color: #198754;
     color: white;
     border-radius: 5px;
     font-size: 1.2em;
@@ -97,7 +99,8 @@ input[type="text"] {
     transition: background-color 0.2s ease;
 }
 
-.send-button:hover, .backspace-button:hover {
+.send-button:hover,
+.backspace-button:hover {
     background-color: #218838;
 }
 
@@ -111,7 +114,8 @@ input[type="text"] {
         font-size: 1.2em;
     }
 
-    .send-button, .backspace-button {
+    .send-button,
+    .backspace-button {
         font-size: 1em;
         padding: 10px 20px;
     }

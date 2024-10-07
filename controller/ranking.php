@@ -1,11 +1,13 @@
 <?php
-include "../view/teclado.html"; ?>
+include "../view/index.html"; ?>
 <style>
 <?php include "../view/assets/css/teclado.css"; ?>
 </style>
 <?php if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Recebe o valor do input 'selectedLetter'
-    $nome = htmlspecialchars($_POST["selectedLetter"]);
+    $nome = htmlspecialchars($_POST["inputNome"]);
+    $telefone = htmlspecialchars($_POST["inputFone"]);
+    $instagram = htmlspecialchars($_POST["inputInstagram"]);
 
     // Exibe uma mensagem perguntando se o nome inserido está correto
     echo "
@@ -18,6 +20,8 @@ include "../view/teclado.html"; ?>
           </div>
           <div class='modal-body text-white'>
             <p class='text-nowrap'>Nome: $nome</p>
+            <p class='text-nowrap'>Telefone: $telefone</p>
+            <p class='text-nowrap'>Instagram: $instagram</p>
           </div>
           <div class='modal-footer'>
             <form action='../view/index.html' method='GET'>

@@ -21,7 +21,15 @@ const ranking = [
     telefone: "(11) 99999-9999",
     instagram: "@doodis",
     pontuacao: 99999,
-  },];
+  },
+  {
+    id: 4,
+    nome: "Murilao",
+    telefone: "(11) 99999-9999",
+    instagram: "murilo",
+    pontuacao: 9999,
+  },
+];
 // FIM DO OBJETO DE EXEMPLO
 
 const mario = document.querySelector(".mario");
@@ -249,7 +257,7 @@ document.addEventListener("keydown", (event) => {
     });
     iniciarJogo();
     started = true;
-    adicionaVida(4);
+    adicionaVida(3);
     console.log("Quantidade de vidas atual: " + vidas);
   } else {
     // senão -> reiniciar
