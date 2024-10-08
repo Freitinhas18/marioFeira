@@ -136,7 +136,7 @@
                                 id="inputFoneField"
                                 name="inputFone"
                                 readonly
-                                placeholder="Insira seu telefone"
+                                placeholder="Insira seu telefone (com DD)"
                                 class="form-control"
                             />
                             <div class="keyboard" id="keyboard">
@@ -191,12 +191,10 @@
                                 </button>
                             </div>
                         </div>
-                        <!-- [Modal footer] -->
                     </div>
                 </div>
             </div>
 
-            <!-- Input Instagram Modal -->
             <div
                 class="modal inputInstagram"
                 tabindex="-1"
@@ -266,12 +264,11 @@
                                 </button>
                             </div>
                         </div>
-                        <!-- [Modal footer] -->
                     </div>
                 </div>
             </div>
         </form>
-
+        <script src="./assets/js/jquery.mask.js"></script>
         <script>
             document.addEventListener("keydown", (event) => {
                 $(".inputNome").modal("show");

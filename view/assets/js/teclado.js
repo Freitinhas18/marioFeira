@@ -18,7 +18,7 @@ function initializeKeyboard(
   }
 
   function handleKeydown(event) {
-    const cols = 10; // Número de colunas
+    const cols = 10; 
 
     switch (event.key) {
       case "ArrowRight":
@@ -48,11 +48,11 @@ function initializeKeyboard(
       inputField.value = inputField.value.slice(0, -1);
     } else if (selectedKey.classList.contains("send-button")) {
       if (modalSelector === "#inputNomeModal") {
-        inputNomeValue = inputField.value; // Store name
+        inputNomeValue = inputField.value; 
       } else if (modalSelector === "#inputFoneModal") {
-        inputFoneValue = inputField.value; // Store phone
+        inputFoneValue = inputField.value; 
       } else if (modalSelector === "#inputInstagramModal") {
-        document.querySelector("form").submit(); // Submit the form
+        document.querySelector("form").submit(); 
       }
       $(modalSelector).modal("hide");
       if (nextModalSelector) {
@@ -61,7 +61,7 @@ function initializeKeyboard(
           const nextInputField = document.querySelector(
             nextModalSelector + " input",
           );
-          nextInputField.focus(); // Focus on the next input
+          nextInputField.focus(); 
         }, 200);
       }
       console.log("Input submitted:", inputField.value);
@@ -69,7 +69,6 @@ function initializeKeyboard(
       inputField.value += selectedKey.textContent.trim();
     }
 
-    // Remove focus from the current input
     inputField.blur();
   }
 
@@ -85,9 +84,9 @@ function initializeKeyboard(
         inputField.value = inputField.value.slice(0, -1);
       } else if (key.classList.contains("send-button")) {
         if (modalSelector === "#inputNomeModal") {
-          inputNomeValue = inputField.value; // Store name
+          inputNomeValue = inputField.value; 
         } else if (modalSelector === "#inputFoneModal") {
-          inputFoneValue = inputField.value; // Store phone
+          inputFoneValue = inputField.value;
         }
         $(modalSelector).modal("hide");
         if (nextModalSelector) {
@@ -96,10 +95,10 @@ function initializeKeyboard(
             const nextInputField = document.querySelector(
               nextModalSelector + " input",
             );
-            nextInputField.focus(); // Focus on the next input
+            nextInputField.focus(); 
           }, 200);
         }
-        console.log("Input submitted:", inputField.value);
+        console.log("Valores enviados pelo form:", inputField.value);
       } else {
         inputField.value += key.textContent.trim();
       }
@@ -143,7 +142,6 @@ document.addEventListener("DOMContentLoaded", function () {
       "#inputInstagramModal",
       "#inputInstagramField",
     );
-    // Set the hidden inputs with stored values
     document.getElementById("inputNomeFieldHidden").value = inputNomeValue;
     document.getElementById("inputFoneFieldHidden").value = inputFoneValue;
   });
