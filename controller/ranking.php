@@ -4,12 +4,12 @@ include "../view/index.html"; ?>
 <?php include "../view/assets/css/teclado.css"; ?>
 </style>
 <?php if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Recebe o valor do input 'selectedLetter'
+    // p/ verificar se os valores estão sendo enviados corretamente
+    var_dump($_POST);
     $nome = htmlspecialchars($_POST["inputNome"]);
     $telefone = htmlspecialchars($_POST["inputFone"]);
     $instagram = htmlspecialchars($_POST["inputInstagram"]);
 
-    // Exibe uma mensagem perguntando se o nome inserido está correto
     echo "
     <div class='modal resultados' data-bs-theme='dark' tabindex='-1'>
       <div class='modal-dialog'>

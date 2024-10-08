@@ -1,73 +1,148 @@
-// Seleciona todos os elementos com a classe 'key' (inclui letras, Backspace e Enviar)
-const keys = document.querySelectorAll(".key");
-const inputField = document.getElementById("selectedLetter"); // Campo de texto
-let selectedIndex = 0; // Índice da tecla selecionada
+let inputNomeValue = "";
+let inputFoneValue = "";
 
-// Função que atualiza a aparência das teclas para destacar a tecla selecionada
-function updateSelection() {
-  keys.forEach((key, index) => {
-    key.classList.toggle("selected", index === selectedIndex);
-  });
-}
+function initializeKeyboard(
+  modalSelector,
+  inputFieldSelector,
+  nextModalSelector,
+) {
+  const modal = document.querySelector(modalSelector);
+  const inputField = modal.querySelector(inputFieldSelector);
+  const keys = modal.querySelectorAll(".key");
+  let selectedIndex = 0;
 
-// Função que lida com o pressionamento de teclas
-function handleKeydown(event) {
-  const cols = 10; // Número de teclas por linha
-
-  if (event.key === "ArrowRight") {
-    selectedIndex = (selectedIndex + 1) % keys.length; // Move para a direita
-  } else if (event.key === "ArrowLeft") {
-    selectedIndex = (selectedIndex - 1 + keys.length) % keys.length; // Move para a esquerda
-  } else if (event.key === "ArrowDown") {
-    selectedIndex = (selectedIndex + cols) % keys.length; // Move para baixo
-  } else if (event.key === "ArrowUp") {
-    selectedIndex = (selectedIndex - cols + keys.length) % keys.length; // Move para cima
-  } else if (event.key === "Enter") {
-    handleEnter(); // Chama a função para lidar com a tecla Enter
+  function updateSelection() {
+    keys.forEach((key, index) => {
+      key.classList.toggle("selected", index === selectedIndex);
+    });
   }
 
-  updateSelection(); // Atualiza a seleção visual
-}
+  function handleKeydown(event) {
+    const cols = 10; 
 
-// Função para adicionar a letra ou executar ação de backspace ou enviar
-function handleEnter() {
-  const selectedKey = keys[selectedIndex];
-
-  // Verifica se a tecla selecionada é o botão Backspace ou Enviar
-  if (selectedKey.classList.contains("backspace-button")) {
-    // Remove a última letra do campo de texto
-    inputField.value = inputField.value.slice(0, -1);
-  } else if (selectedKey.classList.contains("send-button")) {
-    // Submete o formulário (simula o envio)
-    document.querySelector("form").submit();
-  } else {
-    // Adiciona a letra ao campo de texto
-    inputField.value += selectedKey.textContent.trim();
-  }
-}
-
-// Adiciona um listener para detectar pressionamento de teclas
-document.addEventListener("keydown", handleKeydown);
-
-// Evento de clique para cada tecla
-keys.forEach((key, index) => {
-  key.addEventListener("click", () => {
-    // Verifica se a tecla clicada é o botão Backspace ou Enviar
-    if (key.classList.contains("backspace-button")) {
-      // Remove a última letra do campo de texto
-      inputField.value = inputField.value.slice(0, -1);
-    } else if (key.classList.contains("send-button")) {
-      // Submete o formulário (simula o envio)
-      document.querySelector("form").submit();
-    } else {
-      // Adiciona a letra ao campo
-      inputField.value += key.textContent.trim();
+    switch (event.key) {
+      case "ArrowRight":
+        selectedIndex = (selectedIndex + 1) % keys.length;
+        break;
+      case "ArrowLeft":
+        selectedIndex = (selectedIndex - 1 + keys.length) % keys.length;
+        break;
+      case "ArrowDown":
+        selectedIndex = (selectedIndex + cols) % keys.length;
+        break;
+      case "ArrowUp":
+        selectedIndex = (selectedIndex - cols + keys.length) % keys.length;
+        break;
+      case "Enter":
+        handleEnter();
+        break;
     }
 
-    selectedIndex = index; // Atualiza a seleção
-    updateSelection(); // Atualiza a seleção visual
+    updateSelection();
+  }
+
+  function handleEnter() {
+    const selectedKey = keys[selectedIndex];
+
+    if (selectedKey.classList.contains("backspace-button")) {
+      inputField.value = inputField.value.slice(0, -1);
+    } else if (selectedKey.classList.contains("send-button")) {
+      if (modalSelector === "#inputNomeModal") {
+        inputNomeValue = inputField.value; 
+      } else if (modalSelector === "#inputFoneModal") {
+        inputFoneValue = inputField.value; 
+      } else if (modalSelector === "#inputInstagramModal") {
+        document.querySelector("form").submit(); 
+      }
+      $(modalSelector).modal("hide");
+      if (nextModalSelector) {
+        $(nextModalSelector).modal("show");
+        setTimeout(() => {
+          const nextInputField = document.querySelector(
+            nextModalSelector + " input",
+          );
+          nextInputField.focus(); 
+        }, 200);
+      }
+      console.log("Input submitted:", inputField.value);
+    } else {
+      inputField.value += selectedKey.textContent.trim();
+    }
+
+    inputField.blur();
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if ($(".modal.show").length) {
+      handleKeydown(event);
+    }
+  });
+
+  keys.forEach((key, index) => {
+    key.addEventListener("click", () => {
+      if (key.classList.contains("backspace-button")) {
+        inputField.value = inputField.value.slice(0, -1);
+      } else if (key.classList.contains("send-button")) {
+        if (modalSelector === "#inputNomeModal") {
+          inputNomeValue = inputField.value; 
+        } else if (modalSelector === "#inputFoneModal") {
+          inputFoneValue = inputField.value;
+        }
+        $(modalSelector).modal("hide");
+        if (nextModalSelector) {
+          $(nextModalSelector).modal("show");
+          setTimeout(() => {
+            const nextInputField = document.querySelector(
+              nextModalSelector + " input",
+            );
+            nextInputField.focus(); 
+          }, 200);
+        }
+        console.log("Valores enviados pelo form:", inputField.value);
+      } else {
+        inputField.value += key.textContent.trim();
+      }
+
+      selectedIndex = index;
+      updateSelection();
+    });
+  });
+
+  updateSelection();
+
+  return function cleanup() {
+    document.removeEventListener("keydown", handleKeydown);
+  };
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  let cleanupFunc;
+
+  $("#inputNomeModal").on("shown.bs.modal", function () {
+    if (cleanupFunc) cleanupFunc();
+    cleanupFunc = initializeKeyboard(
+      "#inputNomeModal",
+      "#inputNomeField",
+      "#inputFoneModal",
+    );
+  });
+
+  $("#inputFoneModal").on("shown.bs.modal", function () {
+    if (cleanupFunc) cleanupFunc();
+    cleanupFunc = initializeKeyboard(
+      "#inputFoneModal",
+      "#inputFoneField",
+      "#inputInstagramModal",
+    );
+  });
+
+  $("#inputInstagramModal").on("shown.bs.modal", function () {
+    if (cleanupFunc) cleanupFunc();
+    cleanupFunc = initializeKeyboard(
+      "#inputInstagramModal",
+      "#inputInstagramField",
+    );
+    document.getElementById("inputNomeFieldHidden").value = inputNomeValue;
+    document.getElementById("inputFoneFieldHidden").value = inputFoneValue;
   });
 });
-
-// Seleção inicial
-updateSelection();
