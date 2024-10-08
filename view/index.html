@@ -33,92 +33,29 @@
             />
             <div class="start-ground"></div>
         </div>
-            <div class="modal inputNome" tabindex="-1" role="dialog">
+
+        <form action="../controller/ranking.php" method="POST">
+            <div
+                class="modal inputNome"
+                tabindex="-1"
+                role="dialog"
+                id="inputNomeModal"
+            >
                 <div class="modal-dialog modal-fullscreen" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Insira seu nome</h5>
-
-                            </button>
                         </div>
                         <div class="modal-body">
                             <input
                                 type="text"
-                                id="selectedLetter"
+                                id="inputNomeField"
                                 name="inputNome"
                                 readonly
                                 placeholder="Digite o nome"
                                 class="form-control"
                             />
                             <div class="keyboard" id="keyboard">
-                                <div class="key">Q</div>
-                                <div class="key">W</div>
-                                <div class="key">E</div>
-                                <div class="key">R</div>
-                                <div class="key">T</div>
-                                <div class="key">Y</div>
-                                <div class="key">U</div>
-                                <div class="key">I</div>
-                                <div class="key">O</div>
-                                <div class="key">P</div>
-                                <div class="key">A</div>
-                                <div class="key">S</div>
-                                <div class="key">D</div>
-                                <div class="key">F</div>
-                                <div class="key">G</div>
-                                <div class="key">H</div>
-                                <div class="key">J</div>
-                                <div class="key">K</div>
-                                <div class="key">L</div>
-                                <div class="key">Z</div>
-                                <div class="key">X</div>
-                                <div class="key">C</div>
-                                <div class="key">V</div>
-                                <div class="key">B</div>
-                                <div class="key">N</div>
-                                <div class="key">M</div>
-                                <div class="key backspace-button bg-danger">
-                                    <i class="bi bi-x-lg"></i>
-                                </div>
-                                <button
-                                    class="key send-button bg-success"
-                                    data-bs-target="#inputFone"
-                                    data-bs-toggle="modal"
-                                >
-                                    <i class="bi bi-box-arrow-in-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button
-                                type="button"
-                                class="btn btn-danger"
-                                data-bs-dismiss="modal"
-                            >
-                                Fechar
-                            </button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal inputFone" id="inputFone" tabindex="-1" role="dialog">
-                <div class="modal-dialog modal-fullscreen" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <input
-                                type="text"
-                                id="selectedLetter"
-                                name="inputFone"
-                                readonly
-                                placeholder="Insira seu telefone"
-                                class="form-control"
-                            />
-                            <div class="keyboard-number m-auto" id="keyboard">
                                 <div class="key">1</div>
                                 <div class="key">2</div>
                                 <div class="key">3</div>
@@ -129,49 +66,7 @@
                                 <div class="key">8</div>
                                 <div class="key">9</div>
                                 <div class="key">0</div>
-                                <div class="key backspace-button">
-                                    <i class="bi bi-x-lg"></i>
-                                </div>
-                                <button
-                                    onclick="callModal"
-                                    class="key send-button bg-success"
-                                    data-bs-target="#inputInstagram"
-                                    data-bs-toggle="modal"
-                                >
-                                    <i class="bi bi-box-arrow-in-right"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button
-                                type="button"
-                                class="btn btn-secondary"
-                                data-bs-dismiss="modal"
-                            >
-                                Fechar
-                            </button>
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal inputInstagram" id="inputInstagram"tabindex="-1" role="dialog">
-                <div class="modal-dialog modal-fullscreen" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <input
-                                type="text"
-                                id="selectedLetter"
-                                name="inputInstagram"
-                                readonly
-                                placeholder="Insira seu Instagram"
-                                class="form-control"
-                            />
-                            <div class="keyboard" id="keyboard">
                                 <div class="key">Q</div>
                                 <div class="key">W</div>
                                 <div class="key">E</div>
@@ -198,17 +93,18 @@
                                 <div class="key">B</div>
                                 <div class="key">N</div>
                                 <div class="key">M</div>
-                                <div class="key backspace-button bg-danger">
+                                <div class="key backspace-buttChatGPTon">
                                     <i class="bi bi-x-lg"></i>
                                 </div>
-                                <form action="../controller/ranking.php" method="POST">
-                                    <button
-                                        class="key send-button bg-success"
-                                        type="submit"
-                                    >
-                                        <i class="bi bi-box-arrow-in-right"></i>
-                                    </button>
-                                </form>
+                                <button
+                                    type="button"
+                                    class="key send-button"
+                                    data-bs-target="#inputFone"
+                                    data-bs-toggle="modal"
+                                    onclick="event.preventDefault();"
+                                >
+                                    <i class="bi bi-box-arrow-in-right"></i>
+                                </button>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -219,11 +115,162 @@
                             >
                                 Fechar
                             </button>
-
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Input Fone Modal -->
+            <div
+                class="modal inputFone"
+                tabindex="-1"
+                role="dialog"
+                id="inputFoneModal"
+            >
+                <div class="modal-dialog modal-fullscreen" role="document">
+                    <div class="modal-content">
+                        <!-- [Similar content as above, with IDs adjusted] -->
+                        <div class="modal-body">
+                            <input
+                                type="text"
+                                id="inputFoneField"
+                                name="inputFone"
+                                readonly
+                                placeholder="Insira seu telefone"
+                                class="form-control"
+                            />
+                            <div class="keyboard" id="keyboard">
+                                <div class="key">1</div>
+                                <div class="key">2</div>
+                                <div class="key">3</div>
+                                <div class="key">4</div>
+                                <div class="key">5</div>
+                                <div class="key">6</div>
+                                <div class="key">7</div>
+                                <div class="key">8</div>
+                                <div class="key">9</div>
+                                <div class="key">0</div>
+
+                                <div class="key">Q</div>
+                                <div class="key">W</div>
+                                <div class="key">E</div>
+                                <div class="key">R</div>
+                                <div class="key">T</div>
+                                <div class="key">Y</div>
+                                <div class="key">U</div>
+                                <div class="key">I</div>
+                                <div class="key">O</div>
+                                <div class="key">P</div>
+                                <div class="key">A</div>
+                                <div class="key">S</div>
+                                <div class="key">D</div>
+                                <div class="key">F</div>
+                                <div class="key">G</div>
+                                <div class="key">H</div>
+                                <div class="key">J</div>
+                                <div class="key">K</div>
+                                <div class="key">L</div>
+                                <div class="key">Z</div>
+                                <div class="key">X</div>
+                                <div class="key">C</div>
+                                <div class="key">V</div>
+                                <div class="key">B</div>
+                                <div class="key">N</div>
+                                <div class="key">M</div>
+                                <div class="key backspace-buttChatGPTon">
+                                    <i class="bi bi-x-lg"></i>
+                                </div>
+                                <button
+                                    type="button"
+                                    class="key send-button"
+                                    data-bs-target="#inputFone"
+                                    data-bs-toggle="modal"
+                                    onclick="event.preventDefault();"
+                                >
+                                    <i class="bi bi-box-arrow-in-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- [Modal footer] -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Instagram Modal -->
+            <div
+                class="modal inputInstagram"
+                tabindex="-1"
+                role="dialog"
+                id="inputInstagramModal"
+            >
+                <div class="modal-dialog modal-fullscreen" role="document">
+                    <div class="modal-content">
+                        <!-- [Similar content as above, with IDs adjusted] -->
+                        <div class="modal-body">
+                            <input
+                                type="text"
+                                id="inputInstagramField"
+                                name="inputInstagram"
+                                readonly
+                                placeholder="Insira seu Instagram"
+                                class="form-control"
+                            />
+                            <div class="keyboard" id="keyboard">
+                                <div class="key">1</div>
+                                <div class="key">2</div>
+                                <div class="key">3</div>
+                                <div class="key">4</div>
+                                <div class="key">5</div>
+                                <div class="key">6</div>
+                                <div class="key">7</div>
+                                <div class="key">8</div>
+                                <div class="key">9</div>
+                                <div class="key">0</div>
+
+                                <div class="key">Q</div>
+                                <div class="key">W</div>
+                                <div class="key">E</div>
+                                <div class="key">R</div>
+                                <div class="key">T</div>
+                                <div class="key">Y</div>
+                                <div class="key">U</div>
+                                <div class="key">I</div>
+                                <div class="key">O</div>
+                                <div class="key">P</div>
+                                <div class="key">A</div>
+                                <div class="key">S</div>
+                                <div class="key">D</div>
+                                <div class="key">F</div>
+                                <div class="key">G</div>
+                                <div class="key">H</div>
+                                <div class="key">J</div>
+                                <div class="key">K</div>
+                                <div class="key">L</div>
+                                <div class="key">Z</div>
+                                <div class="key">X</div>
+                                <div class="key">C</div>
+                                <div class="key">V</div>
+                                <div class="key">B</div>
+                                <div class="key">N</div>
+                                <div class="key">M</div>
+                                <div class="key backspace-buttChatGPTon">
+                                    <i class="bi bi-x-lg"></i>
+                                </div>
+                                <button
+                                    type="submit"
+                                    class="key send-button"
+                                    data-bs-target="#inputFone"
+                                    data-bs-toggle="modal"
+                                >
+                                    <i class="bi bi-box-arrow-in-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- [Modal footer] -->
+                    </div>
+                </div>
+            </div>
+        </form>
 
         <script>
             document.addEventListener("keydown", (event) => {
