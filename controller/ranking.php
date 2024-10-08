@@ -42,11 +42,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <p class="text-nowrap">Instagram: <?php echo $instagram; ?></p>
                 </div>
                 <div class="modal-footer">
-                    <form action="../view/index.html" method="GET">
-                        <button type="submit" class="btn btn-danger">Fechar</button>
+                    <form action="../view/index.html" class="voltar" method="GET">
+                        <button type="submit" class="btn btn-danger">Back</button>
                     </form>
-                    <form action="../view/game.html" method="GET">
-                        <button type="submit" class="btn btn-success">Enviar</button>
+                    <form action="../view/game.html" class="iniciar" method="GET">
+                        <button type="submit" class="btn btn-success">Start</button>
                     </form>
                 </div>
             </div>
@@ -65,6 +65,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $(document).ready(function(){
             $("#resultadosModal").modal("show");
         });
+        document.addEventListener("keydown", (event) => {
+            if (event.code === "Enter") {
+                console.log("enviado")
+                document.querySelector(".iniciar").submit();
+            } else {
+                // Assuming you only want to submit on certain keys
+                // Optionally, you can add checks for specific keys
+                document.querySelector(".voltar").submit();
+            }
+        });
     </script>
+
 </body>
 </html>

@@ -22,7 +22,7 @@ html {
 .key {
     background-color: #ccc;
     text-align: center;
-    font-size: 1.5em;
+    font-size: 1.8em;
     padding: 20px;
     border-radius: 5px;
     cursor: pointer;
@@ -33,8 +33,7 @@ html {
 }
 
 .key.selected {
-    background-color: orange;
-    color: white;
+    border: 2px solid #e4000f;
 }
 
 input[type="text"] {
@@ -45,6 +44,7 @@ input[type="text"] {
     text-align: center;
     border: 2px solid #ccc;
     border-radius: 5px;
+    outline: none !important;
 }
 
 .key.backspace-button {
@@ -92,21 +92,4 @@ input[type="text"] {
 .key.backspace-button:hover,
 .key.send-button:hover {
     background-color: #218838;
-}
-
-@media (max-width: 600px) {
-    .key {
-        font-size: 1em;
-        padding: 10px;
-    }
-
-    input[type="text"] {
-        font-size: 1.2em;
-    }
-
-    .send-button,
-    .backspace-button {
-        font-size: 1em;
-        padding: 10px 20px;
-    }
 }

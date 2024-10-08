@@ -1,17 +1,96 @@
-function initializeKeyboard(
-  modalSelector,
-  inputFieldSelector,
-  nextModalSelector,
-) {
+function createKeyboard(modalSelector, inputFieldSelector, nextModalSelector) {
   const modal = document.querySelector(modalSelector);
+  const keyboardContainer = modal.querySelector(".keyboard");
   const inputField = modal.querySelector(inputFieldSelector);
-  const keys = modal.querySelectorAll(".key");
+  const keys = [];
   let selectedIndex = 0;
+
+  // Lógica Rebs p/ teclado
+  const keyLabels = [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "0",
+    "Q",
+    "W",
+    "E",
+    "R",
+    "T",
+    "Y",
+    "U",
+    "I",
+    "O",
+    "P",
+    "A",
+    "S",
+    "D",
+    "F",
+    "G",
+    "H",
+    "J",
+    "K",
+    "L",
+    "Z",
+    "X",
+    "C",
+    "V",
+    "B",
+    "N",
+    "M",
+    { type: "backspace", label: '<i class="bi bi-x-lg"></i>' },
+    { type: "send", label: '<i class="bi bi-box-arrow-in-right"></i>' },
+  ];
+
+  keyLabels.forEach((key, index) => {
+    const keyElement = document.createElement("div");
+    keyElement.classList.add("key");
+    keys.push(keyElement);
+
+    if (typeof key === "string") {
+      keyElement.textContent = key;
+    } else {
+      keyElement.classList.add(key.type + "-button");
+      keyElement.innerHTML = key.label;
+    }
+
+    keyElement.addEventListener("click", () => {
+      handleKeyClick(key);
+    });
+
+    keyboardContainer.appendChild(keyElement);
+  });
 
   function updateSelection() {
     keys.forEach((key, index) => {
       key.classList.toggle("selected", index === selectedIndex);
     });
+  }
+
+  function handleKeyClick(key) {
+    if (key.type === "backspace") {
+      inputField.value = inputField.value.slice(0, -1);
+    } else if (key.type === "send") {
+      inputField.value = inputField.value.trim(); // remove espaços
+
+      if (modalSelector === "#inputInstagramModal") {
+        $(modalSelector).modal("hide"); // fecha a última modal (JQUERY)
+        document.querySelector("form").submit(); // Envia o formulário
+      } else {
+        $(modalSelector).modal("hide");
+        if (nextModalSelector) {
+          $(nextModalSelector).modal("show");
+        }
+      }
+    } else {
+      inputField.value += key;
+    }
+    updateSelection();
   }
 
   function handleKeydown(event) {
@@ -35,72 +114,30 @@ function initializeKeyboard(
         selectedIndex = (selectedIndex - cols + keys.length) % keys.length;
         break;
       case "Enter":
-        handleEnter();
-        break;
+        handleKeyClick(keyLabels[selectedIndex]);
+        return;
       default:
-        return; // Exit if it's not an arrow key or Enter
+        return;
     }
 
-    event.preventDefault(); // Prevent default browser actions
+    event.preventDefault(); // evita algumas definições do navegador, como a exibição de inputs anteriores
     updateSelection();
   }
 
-  function handleEnter() {
-    const selectedKey = keys[selectedIndex];
-
-    if (selectedKey.classList.contains("backspace-button")) {
-      inputField.value = inputField.value.slice(0, -1);
-    } else if (selectedKey.classList.contains("send-button")) {
-      $(modalSelector).modal("hide");
-      if (nextModalSelector) {
-        $(nextModalSelector).modal("show");
-      } else {
-        // Submit the form if there is no next modal
-        document.querySelector("form").submit();
-      }
-    } else {
-      inputField.value += selectedKey.textContent.trim();
-    }
-  }
-
-  keys.forEach((key, index) => {
-    key.addEventListener("click", () => {
-      selectedIndex = index;
-      if (key.classList.contains("backspace-button")) {
-        inputField.value = inputField.value.slice(0, -1);
-      } else if (key.classList.contains("send-button")) {
-        $(modalSelector).modal("hide");
-        if (nextModalSelector) {
-          $(nextModalSelector).modal("show");
-        } else {
-          document.querySelector("form").submit();
-        }
-      } else {
-        inputField.value += key.textContent.trim();
-      }
-      updateSelection();
-    });
-  });
-
-  // Attach keydown listener to document when modal is shown
+  // deixa o teclado em foco, para cada modal
   $(modalSelector).on("shown.bs.modal", function () {
     document.addEventListener("keydown", handleKeydown);
     inputField.focus();
     updateSelection();
   });
 
-  // Remove keydown listener from document when modal is hidden
   $(modalSelector).on("hidden.bs.modal", function () {
     document.removeEventListener("keydown", handleKeydown);
   });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  initializeKeyboard("#inputNomeModal", "#inputNomeField", "#inputFoneModal");
-  initializeKeyboard(
-    "#inputFoneModal",
-    "#inputFoneField",
-    "#inputInstagramModal",
-  );
-  initializeKeyboard("#inputInstagramModal", "#inputInstagramField", null);
+  createKeyboard("#inputNomeModal", "#inputNomeField", "#inputFoneModal");
+  createKeyboard("#inputFoneModal", "#inputFoneField", "#inputInstagramModal");
+  createKeyboard("#inputInstagramModal", "#inputInstagramField", null);
 });
