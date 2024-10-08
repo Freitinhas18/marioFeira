@@ -155,7 +155,7 @@ const iniciarJogo = () => {
   audioJump.muted = false;
 
   pipe.style.animation = `pipe-animation ${velocidade}s infinite linear`; // Movimento da PIPE
-  mario.src = "./assets/images/mario.gif";
+  mario.src = "./assets/images/pixil-gif-drawing-unscreen.gif";
 
   mario.style.marginLeft = "0px";
 
@@ -215,7 +215,7 @@ function gerarChao(groundElement) {
 const reiniciar = () => {
   if (vidas != 0) {
     gameOverText.style.opacity = "0%";
-    mario.src = "./assets/images/mario.gif";
+    mario.src = "./assets/images/pixil-gif-drawing-unscreen.gif";
     mario.style.width = "150px";
     mario.style.marginLeft = "0px";
     mario.style.bottom = "50px";
