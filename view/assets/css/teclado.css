@@ -52,14 +52,14 @@ input[type="text"] {
 }
 
 .key.backspace-button img {
-    max-width: 70%; /* Ajusta o tamanho da imagem */
-    max-height: 70%; /* Ajusta a altura da imagem */
-    object-fit: contain; /* Garante que a imagem se mantenha proporcional */
-    position: absolute; /* Posiciona a imagem dentro do botão */
-    top: 50%; /* Centraliza verticalmente */
-    left: 50%; /* Centraliza horizontalmente */
-    transform: translate(-50%, -50%); /* Ajusta a imagem para o centro */
-    pointer-events: none; /* Ignora eventos de mouse na imagem */
+    max-width: 70%;
+    max-height: 70%;
+    object-fit: contain;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
 }
 
 .key.send-button {

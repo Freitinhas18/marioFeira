@@ -25,21 +25,24 @@
     <body>
         <div class="start">
             <h1 class="mb-4">Super Mario Runner</h1>
-            <p>Press any key to continue...</p>
+            <p>Pressione qualquer tecla para continuar...</p>
             <img
                 src="./assets/images/pixil-gif-drawing-unscreen.gif"
                 class="marioStart"
-                alt="Mario running"
+                alt="Mario correndo"
             />
             <div class="start-ground"></div>
         </div>
 
         <form action="../controller/ranking.php" method="POST">
+            <!-- Modal with input for Nome -->
             <div
                 class="modal inputNome"
                 tabindex="-1"
                 role="dialog"
                 id="inputNomeModal"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
             >
                 <div class="modal-dialog modal-fullscreen" role="document">
                     <div class="modal-content">
@@ -48,11 +51,10 @@
                                 type="text"
                                 id="inputNomeField"
                                 name="inputNome"
-                                readonly
                                 placeholder="Digite o nome"
                                 class="form-control"
                             />
-                            <div class="keyboard" id="keyboard">
+                            <div class="keyboard" id="keyboardNome">
                                 <div class="key">1</div>
                                 <div class="key">2</div>
                                 <div class="key">3</div>
@@ -90,14 +92,12 @@
                                 <div class="key">B</div>
                                 <div class="key">N</div>
                                 <div class="key">M</div>
-                                <div class="key backspace-buttChatGPTon">
+                                <div class="key backspace-button bg-danger">
                                     <i class="bi bi-x-lg"></i>
                                 </div>
                                 <button
                                     type="button"
                                     class="key send-button"
-                                    data-bs-target="#inputFone"
-                                    data-bs-toggle="modal"
                                     onclick="event.preventDefault();"
                                 >
                                     <i class="bi bi-box-arrow-in-right"></i>
@@ -117,26 +117,27 @@
                 </div>
             </div>
 
-            <!-- Input Fone Modal -->
+            <!-- Modal with input for Telefone -->
             <div
                 class="modal inputFone"
                 tabindex="-1"
                 role="dialog"
                 id="inputFoneModal"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
             >
                 <div class="modal-dialog modal-fullscreen" role="document">
                     <div class="modal-content">
-                        <!-- [Similar content as above, with IDs adjusted] -->
                         <div class="modal-body">
                             <input
                                 type="text"
                                 id="inputFoneField"
                                 name="inputFone"
-                                readonly
-                                placeholder="Insira seu telefone (com DD)"
+                                maxlength="11"
+                                placeholder="Insira seu telefone (com DDD)"
                                 class="form-control"
                             />
-                            <div class="keyboard" id="keyboard">
+                            <div class="keyboard" id="keyboardFone">
                                 <div class="key">1</div>
                                 <div class="key">2</div>
                                 <div class="key">3</div>
@@ -174,14 +175,12 @@
                                 <div class="key">B</div>
                                 <div class="key">N</div>
                                 <div class="key">M</div>
-                                <div class="key backspace-buttChatGPTon">
+                                <div class="key backspace-button bg-danger">
                                     <i class="bi bi-x-lg"></i>
                                 </div>
                                 <button
                                     type="button"
                                     class="key send-button"
-                                    data-bs-target="#inputFone"
-                                    data-bs-toggle="modal"
                                     onclick="event.preventDefault();"
                                 >
                                     <i class="bi bi-box-arrow-in-right"></i>
@@ -192,25 +191,26 @@
                 </div>
             </div>
 
+            <!-- Modal with input for Instagram -->
             <div
                 class="modal inputInstagram"
                 tabindex="-1"
                 role="dialog"
                 id="inputInstagramModal"
+                data-bs-backdrop="static"
+                data-bs-keyboard="false"
             >
                 <div class="modal-dialog modal-fullscreen" role="document">
                     <div class="modal-content">
-                        <!-- [Similar content as above, with IDs adjusted] -->
                         <div class="modal-body">
                             <input
                                 type="text"
                                 id="inputInstagramField"
                                 name="inputInstagram"
-                                readonly
                                 placeholder="Insira seu Instagram"
                                 class="form-control"
                             />
-                            <div class="keyboard" id="keyboard">
+                            <div class="keyboard" id="keyboardInstagram">
                                 <div class="key">1</div>
                                 <div class="key">2</div>
                                 <div class="key">3</div>
@@ -248,14 +248,13 @@
                                 <div class="key">B</div>
                                 <div class="key">N</div>
                                 <div class="key">M</div>
-                                <div class="key backspace-buttChatGPTon">
+                                <div class="key backspace-button bg-danger">
                                     <i class="bi bi-x-lg"></i>
                                 </div>
                                 <button
-                                    type="submit"
+                                    type="button"
                                     class="key send-button"
-                                    data-bs-target="#inputFone"
-                                    data-bs-toggle="modal"
+                                    onclick="event.preventDefault();"
                                 >
                                     <i class="bi bi-box-arrow-in-right"></i>
                                 </button>
@@ -265,7 +264,7 @@
                 </div>
             </div>
         </form>
-        <script src="./assets/js/jquery.mask.js"></script>
+
         <script>
             document.addEventListener("keydown", (event) => {
                 $(".inputNome").modal("show");

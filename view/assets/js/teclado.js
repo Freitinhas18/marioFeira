@@ -1,6 +1,3 @@
-let inputNomeValue = "";
-let inputFoneValue = "";
-
 function initializeKeyboard(
   modalSelector,
   inputFieldSelector,
@@ -18,7 +15,11 @@ function initializeKeyboard(
   }
 
   function handleKeydown(event) {
-    const cols = 10; 
+    if (!$(modalSelector).hasClass("show")) {
+      return;
+    }
+
+    const cols = 10;
 
     switch (event.key) {
       case "ArrowRight":
@@ -36,8 +37,11 @@ function initializeKeyboard(
       case "Enter":
         handleEnter();
         break;
+      default:
+        return; // Exit if it's not an arrow key or Enter
     }
 
+    event.preventDefault(); // Prevent default browser actions
     updateSelection();
   }
 
@@ -47,102 +51,56 @@ function initializeKeyboard(
     if (selectedKey.classList.contains("backspace-button")) {
       inputField.value = inputField.value.slice(0, -1);
     } else if (selectedKey.classList.contains("send-button")) {
-      if (modalSelector === "#inputNomeModal") {
-        inputNomeValue = inputField.value; 
-      } else if (modalSelector === "#inputFoneModal") {
-        inputFoneValue = inputField.value; 
-      } else if (modalSelector === "#inputInstagramModal") {
-        document.querySelector("form").submit(); 
-      }
       $(modalSelector).modal("hide");
       if (nextModalSelector) {
         $(nextModalSelector).modal("show");
-        setTimeout(() => {
-          const nextInputField = document.querySelector(
-            nextModalSelector + " input",
-          );
-          nextInputField.focus(); 
-        }, 200);
+      } else {
+        // Submit the form if there is no next modal
+        document.querySelector("form").submit();
       }
-      console.log("Input submitted:", inputField.value);
     } else {
       inputField.value += selectedKey.textContent.trim();
     }
-
-    inputField.blur();
   }
-
-  document.addEventListener("keydown", (event) => {
-    if ($(".modal.show").length) {
-      handleKeydown(event);
-    }
-  });
 
   keys.forEach((key, index) => {
     key.addEventListener("click", () => {
+      selectedIndex = index;
       if (key.classList.contains("backspace-button")) {
         inputField.value = inputField.value.slice(0, -1);
       } else if (key.classList.contains("send-button")) {
-        if (modalSelector === "#inputNomeModal") {
-          inputNomeValue = inputField.value; 
-        } else if (modalSelector === "#inputFoneModal") {
-          inputFoneValue = inputField.value;
-        }
         $(modalSelector).modal("hide");
         if (nextModalSelector) {
           $(nextModalSelector).modal("show");
-          setTimeout(() => {
-            const nextInputField = document.querySelector(
-              nextModalSelector + " input",
-            );
-            nextInputField.focus(); 
-          }, 200);
+        } else {
+          document.querySelector("form").submit();
         }
-        console.log("Valores enviados pelo form:", inputField.value);
       } else {
         inputField.value += key.textContent.trim();
       }
-
-      selectedIndex = index;
       updateSelection();
     });
   });
 
-  updateSelection();
+  // Attach keydown listener to document when modal is shown
+  $(modalSelector).on("shown.bs.modal", function () {
+    document.addEventListener("keydown", handleKeydown);
+    inputField.focus();
+    updateSelection();
+  });
 
-  return function cleanup() {
+  // Remove keydown listener from document when modal is hidden
+  $(modalSelector).on("hidden.bs.modal", function () {
     document.removeEventListener("keydown", handleKeydown);
-  };
+  });
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-  let cleanupFunc;
-
-  $("#inputNomeModal").on("shown.bs.modal", function () {
-    if (cleanupFunc) cleanupFunc();
-    cleanupFunc = initializeKeyboard(
-      "#inputNomeModal",
-      "#inputNomeField",
-      "#inputFoneModal",
-    );
-  });
-
-  $("#inputFoneModal").on("shown.bs.modal", function () {
-    if (cleanupFunc) cleanupFunc();
-    cleanupFunc = initializeKeyboard(
-      "#inputFoneModal",
-      "#inputFoneField",
-      "#inputInstagramModal",
-    );
-  });
-
-  $("#inputInstagramModal").on("shown.bs.modal", function () {
-    if (cleanupFunc) cleanupFunc();
-    cleanupFunc = initializeKeyboard(
-      "#inputInstagramModal",
-      "#inputInstagramField",
-    );
-    document.getElementById("inputNomeFieldHidden").value = inputNomeValue;
-    document.getElementById("inputFoneFieldHidden").value = inputFoneValue;
-  });
+  initializeKeyboard("#inputNomeModal", "#inputNomeField", "#inputFoneModal");
+  initializeKeyboard(
+    "#inputFoneModal",
+    "#inputFoneField",
+    "#inputInstagramModal",
+  );
+  initializeKeyboard("#inputInstagramModal", "#inputInstagramField", null);
 });
