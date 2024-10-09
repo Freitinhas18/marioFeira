@@ -3,6 +3,13 @@
 const ranking = [
   {
     id: 1,
+    nome: "Rocha - Mestre",
+    telefone: "(11) 99999-9999",
+    instagram: "@rochinha",
+    pontuacao: 100000000000,
+  },
+  {
+    id: 5,
     nome: "Pedro Camilo",
     telefone: "(11) 99999-9999",
     instagram: "@pedro",
@@ -61,10 +68,15 @@ audioBackground.loop = true;
 audioBackground.volume = 0.7;
 audioJump.volume = 0.5;
 let velocidade = 1.5;
+const minDelay = 500; // tempo mínimo entre pipes em ms
+let maxDelay = 2000; // tempo máximo entre pipes em ms
+const minHeight = 4;
+const maxHeight = 60;
 
 const pipeCreationTimeouts = [];
 
 const gameOver = (ranking) => {
+  // Função que termina o jogo
   podeReiniciar = false;
   $(".ranking").modal("show");
   const tbody = $("#tbody");
@@ -95,16 +107,6 @@ const jump = () => {
   }
 };
 
-const acelerar = () => {
-  aumentaVel = setInterval(() => {
-    if (velocidade > 0.95) {
-      velocidade -= 0.0005;
-    } else {
-      clearInterval(aumentaVel);
-    }
-  }, 100);
-};
-
 const adicionaVida = (qntvidas) => {
   vidas += qntvidas;
 
@@ -114,7 +116,7 @@ const adicionaVida = (qntvidas) => {
   }
 
   // Atualiza a exibição de vidas
-  $(".hearts").html(heart);
+  $(".hearts").html(heart); // .html() vs .append() - Diferença está na adição, enquanto append adiciona, html substitui a div inteira
 };
 
 const tiraVida = () => {
@@ -133,20 +135,16 @@ const createPipe = () => {
   pipe.classList.add("pipe");
 
   // Randomiza a altura da pipe
-  const minHeight = 10;
-  const maxHeight = 60; // Ajuste conforme necessário
+
   const pipeHeight =
     Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
   pipe.style.bottom = `${pipeHeight}px`;
 
-  // Adiciona a pipe ao jogo
   const gameBoard = document.querySelector(".game-board");
   gameBoard.appendChild(pipe);
 
-  // Inicia a animação da pipe
   pipe.style.animation = `pipe-animation ${velocidade}s linear forwards`;
 
-  // Remove a pipe após a animação terminar
   pipe.addEventListener("animationend", () => {
     pipe.remove();
   });
@@ -154,8 +152,7 @@ const createPipe = () => {
 
 const scheduleNextPipe = () => {
   if (gameOverFlag) return; // Não agenda mais pipes se o jogo acabou
-  const minDelay = 500; // Tempo mínimo entre pipes em ms
-  const maxDelay = 1000; // Tempo máximo entre pipes em ms
+
   const delay =
     Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
   const timeoutID = setTimeout(() => {
@@ -173,6 +170,18 @@ const clearPipeCreationTimeouts = () => {
 const removeAllPipes = () => {
   const pipes = document.querySelectorAll(".pipe");
   pipes.forEach((pipe) => pipe.remove());
+};
+
+const acelerar = () => {
+  aumentaVel = setInterval(() => {
+    if (maxDelay > 1000) {
+      velocidade -= 0.0005;
+      maxDelay -= 2;
+      console.log(maxDelay);
+    } else {
+      clearInterval(aumentaVel);
+    }
+  }, 100);
 };
 
 const iniciarJogo = () => {
@@ -210,11 +219,8 @@ const iniciarJogo = () => {
       if (
         pipePosition <= 170 &&
         pipePosition > 0 &&
-        marioPosition < parseInt(pipe.style.bottom) + 50
+        marioPosition < parseInt(pipe.style.bottom) + 50 // Ajuste a altura do Mario conforme necessário
       ) {
-        // Ajuste a altura do Mario conforme necessário
-
-        // Para todas as pipes
         const allPipes = document.querySelectorAll(".pipe");
         allPipes.forEach((p) => {
           const pPosition = p.offsetLeft;
@@ -240,7 +246,6 @@ const iniciarJogo = () => {
         clearInterval(loop);
         clearInterval(aumentaScore);
         clearInterval(aumentaVel);
-
         clearPipeCreationTimeouts();
       }
     });
@@ -249,7 +254,7 @@ const iniciarJogo = () => {
 
 // Função para gerar o chão contínuo
 function gerarChao(groundElement) {
-  const groundImgWidth = 64; // Largura da imagem do chão (em pixels)
+  const groundImgWidth = 64;
   const screenWidth = window.innerWidth;
   const numImgs = Math.ceil(screenWidth / groundImgWidth) + 35;
 
@@ -269,6 +274,7 @@ const reiniciar = () => {
     mario.style.marginLeft = "0px";
     mario.style.bottom = "50px";
     mario.style.animation = "";
+    maxDelay = 2000;
     removeAllPipes();
     iniciarJogo();
   } else {
