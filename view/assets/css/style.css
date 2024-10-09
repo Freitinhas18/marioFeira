@@ -9,10 +9,17 @@
     src: url("../fonts/Monocraft.ttf");
 }
 
+body,
+html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Evita barras de rolagem */
+}
+
 .start {
     position: fixed;
     top: 0;
-    right: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
     flex-direction: column;
@@ -20,7 +27,6 @@
     justify-content: center;
     padding-bottom: 60px;
     display: flex;
-    height: 100vh;
     background: linear-gradient(#87ceeb, #e0f6ff);
     z-index: 100;
 }
@@ -29,21 +35,32 @@
     font-family: Monocraft;
     font-size: 4rem;
     font-weight: bold;
-    color: dark;
+    color: #000; /* Alterado de 'dark' para uma cor válida */
     margin-bottom: 50px;
 }
+
 .start p {
     font-size: 1.7rem;
     font-family: Monocraft;
+    color: #000; /* Garantir legibilidade */
 }
-.ground,
+
+.game-board {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    background: linear-gradient(#87ceeb, #e0f6ff);
+    overflow: hidden; /* Evita que elementos saiam da tela */
+}
+
 .game-board-ground {
     display: flex;
     flex-direction: row;
     position: absolute;
     bottom: -13px; /* Ajustar conforme necessário */
-    width: 100%; /* Para garantir que preencha toda a largura */
-    animation: moveGround 5s linear infinite; /* Animação contínua */
+    width: 100%;
+    z-index: 100;
+    animation: moveGround 3s linear infinite; /* Velocidade ajustável */
 }
 
 .ground-img {
@@ -58,32 +75,20 @@
     animation: start-mario-animation 2.5s infinite linear;
 }
 
-.game-board {
-    width: 100%;
-    height: 100vh;
-    margin: 0 auto;
-    position: relative;
-    background: linear-gradient(#87ceeb, #e0f6ff);
-    overflow: hidden;
-}
-.game-board-ground {
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    bottom: -13px;
-    z-index: 100000;
-}
-
 .pipe {
     position: absolute;
-    bottom: 52px;
-    width: 80px;
+    bottom: 52px; /* Ajustar conforme necessário */
+    width: 80px; /* Largura da pipe */
+    height: 80px; /* Altura da pipe */
+    /* Imagem de pipe já definida via JavaScript */
 }
 
 .mario {
     width: 150px;
     position: absolute;
     bottom: 50px;
+    left: 50px; /* Posicionamento horizontal inicial */
+    z-index: 10;
 }
 
 .jump {
@@ -94,7 +99,8 @@
     position: absolute;
     width: 550px;
     animation: clouds-animation 20s infinite linear;
-    z-index: 10;
+    z-index: 5; /* Menor que o Mario para não sobrepor */
+    top: 10%; /* Posicionamento vertical */
 }
 
 .game-over-text {
@@ -102,7 +108,8 @@
     right: 40%;
     bottom: 30%;
     width: 20rem;
-    opacity: 0%;
+    opacity: 0;
+    z-index: 20;
 }
 
 .score {
@@ -112,12 +119,10 @@
     font-family: Monocraft;
     font-size: 1.8rem;
     background-color: white;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-right: 8px;
-    padding-left: 8px;
+    padding: 5px 8px;
     border: 1px solid black;
     z-index: 11;
+    border-radius: 5px;
 }
 
 .hearts {
@@ -125,37 +130,26 @@
     top: 1%;
     left: 7%;
     z-index: 11;
+    display: flex;
+    align-items: center;
 }
+
 .heart {
-    width: 5rem;
-    margin-left: -2.3rem;
+    width: 5.3rem;
+    margin-left: -30px;
 }
 
 /* Animação para mover o chão */
-.start-ground,
-.game-board-ground {
-    display: flex;
-    flex-direction: row;
-    position: absolute;
-    bottom: -13px;
-    width: 100%;
-    z-index: 100;
-    animation: moveGround 3s linear infinite; /* Ajuste a velocidade conforme necessário */
-}
-
-.start-ground .ground-img {
-    width: 4rem;
-}
-
 @keyframes moveGround {
     from {
         transform: translateX(0);
     }
     to {
-        transform: translateX(-100%); /* Mover todo o chão */
+        transform: translateX(-100%);
     }
 }
 
+/* Animação inicial do Mario */
 @keyframes start-mario-animation {
     from {
         right: 110%;
@@ -166,16 +160,17 @@
     }
 }
 
+/* Animação para as pipes */
 @keyframes pipe-animation {
     from {
-        right: -80px;
+        left: 100%;
     }
-
     to {
-        right: 100%;
+        left: -80px;
     }
 }
 
+/* Animação de pulo do Mario */
 @keyframes jump {
     0% {
         bottom: 50px;
@@ -200,6 +195,7 @@
     }
 }
 
+/* Animação das nuvens */
 @keyframes clouds-animation {
     from {
         right: -550px;
@@ -207,4 +203,25 @@
     to {
         right: 100%;
     }
+}
+
+/* Estilos adicionais para pipes dinâmicas */
+.pipe {
+    /* Garantir que as pipes apareçam acima do chão */
+    z-index: 50;
+    /* Adicionar transição suave caso necessário */
+    transition: left linear;
+}
+
+/* Opcional: Adicionar sombra ou outros efeitos */
+.pipe::after {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 10px;
+    background-color: green; /* Cor da base da pipe */
+    border-radius: 5px;
 }

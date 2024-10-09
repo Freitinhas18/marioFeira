@@ -34,7 +34,6 @@ const ranking = [
 
 const mario = document.querySelector(".mario");
 const marioStart = document.querySelector(".marioStart");
-const pipe = document.querySelector(".pipe");
 const gameOverText = document.querySelector(".game-over-text");
 let groundImage;
 
@@ -47,22 +46,23 @@ const audioBackground = new Audio("./assets/sounds/background.mp3");
 let jumping = false;
 let loop;
 let aumentaVel;
-let diminuiVel;
 let vidas = 0;
-// basicamente uma variável para impedir que o jogador pressione "Enter" múltiplas vezes
+let gameOverFlag = false;
 let podeReiniciar = false;
 
 // Variáveis de pontuação
 let score;
 let aumentaScore;
 const scoreHTML = document.querySelector(".score");
-let started = false; // Funcao p/ verificar se jogo foi iniciado
+let started = false; // Verifica se o jogo foi iniciado
 
 // Definições do Jogo
 audioBackground.loop = true;
 audioBackground.volume = 0.7;
 audioJump.volume = 0.5;
 let velocidade = 1.5;
+
+const pipeCreationTimeouts = [];
 
 const gameOver = (ranking) => {
   podeReiniciar = false;
@@ -71,26 +71,26 @@ const gameOver = (ranking) => {
   tbody.empty();
   ranking.forEach((item, index) => {
     tbody.append(`
-                  <tr>
-                      <th scope="row">${index + 1}</th>
-                      <td>${item.nome}</td>
-                      <td>${item.telefone}</td>
-                      <td>${item.instagram}</td>
-                      <td>${item.pontuacao}</td>
-                  </tr>
-              `);
+            <tr>
+                <th scope="row">${index + 1}</th>
+                <td>${item.nome}</td>
+                <td>${item.telefone}</td>
+                <td>${item.instagram}</td>
+                <td>${item.pontuacao}</td>
+            </tr>
+        `);
   });
 };
 
 const jump = () => {
-  if (jumping == false) {
+  if (!jumping) {
     jumping = true;
     audioJump.play();
-    mario.classList.add("jump"); // Adição classe de Pulo, durante salto
+    mario.classList.add("jump");
 
     setTimeout(() => {
-      mario.classList.remove("jump"); // Remoção classe de Pulo, pós salto
-      jumping = false; // Desbloqueia o pulo do Mario
+      mario.classList.remove("jump");
+      jumping = false;
     }, 500);
   }
 };
@@ -98,28 +98,15 @@ const jump = () => {
 const acelerar = () => {
   aumentaVel = setInterval(() => {
     if (velocidade > 0.95) {
-      velocidade -= 0.0005; // Movimento Acelerado
+      velocidade -= 0.0005;
     } else {
       clearInterval(aumentaVel);
-      //retardar();
     }
   }, 100);
 };
 
-/*const retardar = () => {
-  diminuiVel = setInterval(() => {
-    if (!(velocidade > 1.4)) {
-      velocidade += 0.0005; // Movimento Retardado
-    } else {
-      clearInterval(diminuiVel);
-      acelerar();
-    }
-  }, 10);
-};
-*/
-
 const adicionaVida = (qntvidas) => {
-  vidas = vidas + qntvidas;
+  vidas += qntvidas;
 
   let heart = "";
   for (let j = 1; j <= vidas; j++) {
@@ -132,31 +119,76 @@ const adicionaVida = (qntvidas) => {
 
 const tiraVida = () => {
   if (vidas > 0) {
-    // Garante que não subtraia vidas abaixo de zero
     vidas -= 1;
-    adicionaVida(0); // Atualiza a exibição após perder uma vida
+    adicionaVida(0);
     $(".hearts").append(
       `<img src='./assets/images/heart-broken.png' class='heart' alt='Coração Quebrado'>`,
     );
   }
 };
 
+const createPipe = () => {
+  const pipe = document.createElement("img");
+  pipe.src = "./assets/images/pipe.png";
+  pipe.classList.add("pipe");
+
+  // Randomiza a altura da pipe
+  const minHeight = 10;
+  const maxHeight = 60; // Ajuste conforme necessário
+  const pipeHeight =
+    Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
+  pipe.style.bottom = `${pipeHeight}px`;
+
+  // Adiciona a pipe ao jogo
+  const gameBoard = document.querySelector(".game-board");
+  gameBoard.appendChild(pipe);
+
+  // Inicia a animação da pipe
+  pipe.style.animation = `pipe-animation ${velocidade}s linear forwards`;
+
+  // Remove a pipe após a animação terminar
+  pipe.addEventListener("animationend", () => {
+    pipe.remove();
+  });
+};
+
+const scheduleNextPipe = () => {
+  if (gameOverFlag) return; // Não agenda mais pipes se o jogo acabou
+  const minDelay = 500; // Tempo mínimo entre pipes em ms
+  const maxDelay = 1000; // Tempo máximo entre pipes em ms
+  const delay =
+    Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
+  const timeoutID = setTimeout(() => {
+    createPipe();
+    scheduleNextPipe();
+  }, delay);
+  pipeCreationTimeouts.push(timeoutID);
+};
+
+const clearPipeCreationTimeouts = () => {
+  pipeCreationTimeouts.forEach((timeoutID) => clearTimeout(timeoutID));
+  pipeCreationTimeouts.length = 0;
+};
+
+const removeAllPipes = () => {
+  const pipes = document.querySelectorAll(".pipe");
+  pipes.forEach((pipe) => pipe.remove());
+};
+
 const iniciarJogo = () => {
-  // Definições de controle
   podeReiniciar = false;
+  gameOverFlag = false;
   score = 0;
   velocidade = 1.5;
   acelerar();
 
   scoreHTML.textContent = `Pontuação: ${score}`;
 
-  // Definições de áudio pré início
+  // Áudio
   audioBackground.play();
   audioJump.muted = false;
 
-  pipe.style.animation = `pipe-animation ${velocidade}s infinite linear`; // Movimento da PIPE
-  mario.src = "./assets/images/pixil-gif-drawing-unscreen.gif";
-
+  mario.src = "./assets/images/mario.gif";
   mario.style.marginLeft = "0px";
 
   aumentaScore = setInterval(() => {
@@ -164,73 +196,87 @@ const iniciarJogo = () => {
     scoreHTML.textContent = `Pontuação: ${score}`;
   }, 100);
 
+  scheduleNextPipe();
+
   loop = setInterval(() => {
-    const pipePosition = pipe.offsetLeft;
     const marioPosition = +window
       .getComputedStyle(mario)
       .bottom.replace("px", "");
 
-    pipe.style.animation = `pipe-animation ${velocidade}s infinite linear`;
-    if (pipePosition <= 120 && pipePosition > 0 && marioPosition < 80) {
-      console.log("Quantidade de vidas atual: " + vidas);
+    const pipes = document.querySelectorAll(".pipe");
+    pipes.forEach((pipe) => {
+      const pipePosition = pipe.offsetLeft;
 
-      pipe.style.animation = "none";
-      pipe.style.left = `${pipePosition}px`;
-      mario.style.animation = "none";
-      mario.style.bottom = `${marioPosition}px`;
-      mario.src = "./assets/images/game-over.png";
-      mario.style.marginLeft = "50px";
-      gameOverText.style.opacity = "100%";
+      if (
+        pipePosition <= 170 &&
+        pipePosition > 0 &&
+        marioPosition < parseInt(pipe.style.bottom) + 50
+      ) {
+        // Ajuste a altura do Mario conforme necessário
 
-      audioBackground.pause();
-      audioJump.muted = true;
-      audioDeath.play();
-      podeReiniciar = true;
+        // Para todas as pipes
+        const allPipes = document.querySelectorAll(".pipe");
+        allPipes.forEach((p) => {
+          const pPosition = p.offsetLeft;
+          p.style.animation = "none";
+          p.style.left = `${pPosition}px`;
+        });
 
-      mario.style.width = "75px";
-      tiraVida(1);
-      clearInterval(loop);
-      clearInterval(aumentaScore);
-      clearInterval(acelerar);
-      //clearInterval(retardar);
-      console.log(velocidade);
-    }
+        // Para a animação do Mario
+        mario.style.animation = "none";
+        mario.style.bottom = `${marioPosition}px`;
+        mario.src = "./assets/images/game-over.png";
+        mario.style.marginLeft = "50px";
+        gameOverText.style.opacity = "100%";
+
+        audioBackground.pause();
+        audioJump.muted = true;
+        audioDeath.play();
+        podeReiniciar = true;
+
+        mario.style.width = "75px";
+        tiraVida();
+        gameOverFlag = true;
+        clearInterval(loop);
+        clearInterval(aumentaScore);
+        clearInterval(aumentaVel);
+
+        clearPipeCreationTimeouts();
+      }
+    });
   }, 10);
 };
 
 // Função para gerar o chão contínuo
 function gerarChao(groundElement) {
-  const groundImgWidth = 64; // Largura da imagem do chão (em pixels) - Ajuste conforme necessário
-  const screenWidth = window.innerWidth; // Largura da tela
-  const numImgs = Math.ceil(screenWidth / groundImgWidth) + 35; // Calcula quantas imagens são necessárias
+  const groundImgWidth = 64; // Largura da imagem do chão (em pixels)
+  const screenWidth = window.innerWidth;
+  const numImgs = Math.ceil(screenWidth / groundImgWidth) + 35;
 
   let groundImage = "";
   for (let i = 0; i < numImgs; i++) {
     groundImage +=
       "<img src='./assets/images/ground.jpg' class='ground-img' />";
   }
-  $(groundElement).html(groundImage); // Adiciona as imagens no elemento do chão
+  $(groundElement).html(groundImage);
 }
 
 const reiniciar = () => {
   if (vidas != 0) {
     gameOverText.style.opacity = "0%";
-    mario.src = "./assets/images/pixil-gif-drawing-unscreen.gif";
+    mario.src = "./assets/images/mario.gif";
     mario.style.width = "150px";
     mario.style.marginLeft = "0px";
     mario.style.bottom = "50px";
     mario.style.animation = "";
-    pipe.style.left = "unset";
+    removeAllPipes();
     iniciarJogo();
-    acelerar();
   } else {
-    // chamada de função de game over, que recebe como parâmetros o ranking
-    // do banco de dados para então exibi-los
     gameOver(ranking);
   }
 };
+
 // Chamada de funções
-// Quando o documento estiver pronto, gera o chão nas telas de início e do jogo
 $(document).ready(function () {
   gerarChao(".game-board-ground"); // Gera o chão do jogo
 });
@@ -240,28 +286,17 @@ window.addEventListener("resize", function () {
   gerarChao(".game-board-ground");
 });
 
-$(document).ready(function () {
-  // Para o chão do jogo
-  $(".game-board-ground").append(groundImage);
-});
-
 document.addEventListener("keydown", (event) => {
   if (!started) {
     const startScreen = document.querySelector(".start");
     startScreen.style.display = "none";
     audioStart.play();
 
-    $(document).ready(function () {
-      $(".start").empty();
-      $(".game-board-ground").append(groundImage);
-    });
     iniciarJogo();
     started = true;
     adicionaVida(3);
     console.log("Quantidade de vidas atual: " + vidas);
   } else {
-    // senão -> reiniciar
-
     if (event.code === "Space") {
       jump();
     } else if (event.code === "Enter" && podeReiniciar) {
