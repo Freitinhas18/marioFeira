@@ -1,7 +1,6 @@
 let easterEgg;
 let contador = 0;
 let marioSize = 0;
-let groundImage = ""; // Inicializando como uma string vazia
 const marioStart = document.querySelector(".marioStart");
 
 easterEgg = setInterval(() => {
@@ -13,16 +12,16 @@ easterEgg = setInterval(() => {
 
 function gerarChao(groundElement) {
   const groundImgWidth = 64;
-  const screenWidth = window.innerWidth; // Largura da tela
-  const numImgs = Math.ceil(screenWidth / groundImgWidth) + 35; // Calcula quantas imagens são necessárias
+  const screenWidth = window.innerWidth;
 
-  for (let i = 0; i < numImgs; i++) {
+  let groundImage = "";
+  for (let i = 0; i < 23; i++) {
     groundImage +=
       "<img src='./assets/images/ground.jpg' class='ground-img' />";
   }
-  $(groundElement).html(groundImage); // Adiciona as imagens no elemento do chão
+  $(groundElement).html(groundImage);
 }
 
 $(document).ready(function () {
-  gerarChao(".start-ground"); // Chama a função para gerar o chão
+  gerarChao(".start-ground"); // Gera o chão do jogo
 });
