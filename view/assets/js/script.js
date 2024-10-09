@@ -75,24 +75,10 @@ const maxHeight = 60;
 
 const pipeCreationTimeouts = [];
 
-const gameOver = (ranking) => {
+const gameOver = () => {
   // Função que termina o jogo
   podeReiniciar = false;
-
-  $(".ranking").modal("show");
-  const tbody = $("#tbody");
-  tbody.empty();
-  ranking.forEach((item, index) => {
-    tbody.append(`
-            <tr>
-                <th scope="row">${index + 1}</th>
-                <td>${item.nome}</td>
-                <td>${item.telefone}</td>
-                <td>${item.instagram}</td>
-                <td>${item.pontuacao}</td>
-            </tr>
-        `);
-  });
+  console.log("Jogo acabou !")
 };
 
 const jump = () => {
@@ -178,7 +164,6 @@ const acelerar = () => {
     if (maxDelay > 1000) {
       velocidade -= 0.0005;
       maxDelay -= 2;
-      console.log(maxDelay);
     } else {
       clearInterval(aumentaVel);
     }
@@ -306,7 +291,8 @@ document.addEventListener("keydown", (event) => {
   } else {
     if (event.code === "Space") {
       jump();
-    } else if (event.code === "Enter" && podeReiniciar) {
+    }
+    if (event.code === "Space" && podeReiniciar) {
       reiniciar();
     }
   }
