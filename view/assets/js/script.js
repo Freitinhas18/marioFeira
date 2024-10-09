@@ -35,6 +35,7 @@ const ranking = [
 const mario = document.querySelector(".mario");
 const marioStart = document.querySelector(".marioStart");
 const pipe = document.querySelector(".pipe");
+const caixa = document.querySelector(".caixa");
 const gameOverText = document.querySelector(".game-over-text");
 let groundImage;
 
@@ -81,6 +82,9 @@ const gameOver = (ranking) => {
               `);
   });
 };
+
+
+
 
 const jump = () => {
   if (jumping == false) {
@@ -154,8 +158,9 @@ const iniciarJogo = () => {
   audioBackground.play();
   audioJump.muted = false;
 
-  pipe.style.animation = `pipe-animation ${velocidade}s infinite linear`; // Movimento da PIPE
   mario.src = "./assets/images/mario.gif";
+
+  posicionarCaixaAleatoria();
 
   mario.style.marginLeft = "0px";
 
@@ -166,16 +171,21 @@ const iniciarJogo = () => {
 
   loop = setInterval(() => {
     const pipePosition = pipe.offsetLeft;
+    const caixaPosition = caixa.offsetLeft;
     const marioPosition = +window
       .getComputedStyle(mario)
       .bottom.replace("px", "");
 
     pipe.style.animation = `pipe-animation ${velocidade}s infinite linear`;
-    if (pipePosition <= 120 && pipePosition > 0 && marioPosition < 80) {
+    caixa.style.animation = `caixa-animation ${velocidade}s infinite linear`;
+    if (pipePosition <= 120 && pipePosition > 0 && marioPosition < 80 && caixaPosition <= 120
+      && pipePosition >0) {
       console.log("Quantidade de vidas atual: " + vidas);
 
       pipe.style.animation = "none";
       pipe.style.left = `${pipePosition}px`;
+      caixa.style.animation = "none";
+      caixa.style.left = `${pipePosition}px`;
       mario.style.animation = "none";
       mario.style.bottom = `${marioPosition}px`;
       mario.src = "./assets/images/game-over.png";
@@ -212,6 +222,37 @@ function gerarChao(groundElement) {
   $(groundElement).html(groundImage); // Adiciona as imagens no elemento do chão
 }
 
+
+const posicionarCaixaAleatoria = () => {
+  // Intervalo de tempo aleatório entre 2 e 5 segundos para o surgimento da caixa
+  const randomTime = Math.random() * (1000 - 1000) + 2000;
+
+  setTimeout(() => {
+    // Posição inicial da caixa fora da tela (à direita)
+    caixa.style.left = `${window.innerWidth}px`;
+    caixa.style.display = "block"; // Mostra a caixa
+
+    // Define uma altura aleatória entre 52px (mínimo) e 150px (máximo) acima do solo
+
+    // Inicia o movimento da caixa para a esquerda
+    const caixaMovement = setInterval(() => {
+      const caixaPosition = caixa.offsetLeft;
+
+      // Faz a caixa se mover para a esquerda em cada intervalo
+      caixa.style.left = `${caixaPosition - 4}px`; // Ajuste a velocidade conforme necessário
+
+      // Se a caixa sair da tela (caixaPosition < -80), reinicia o processo
+      if (caixaPosition < -80) {
+        clearInterval(caixaMovement); // Para o movimento
+        caixa.style.display = "none"; // Esconde a caixa
+        posicionarCaixaAleatoria(); // Recomeça o ciclo
+      }
+    }, 16); // Ajuste de acordo com a fluidez desejada (60fps = 16ms por quadro)
+  }, randomTime); // Tempo aleatório para reiniciar o processo
+};
+
+
+
 const reiniciar = () => {
   if (vidas != 0) {
     gameOverText.style.opacity = "0%";
@@ -221,6 +262,7 @@ const reiniciar = () => {
     mario.style.bottom = "50px";
     mario.style.animation = "";
     pipe.style.left = "unset";
+    caixa.style.left = "unset";
     iniciarJogo();
     acelerar();
   } else {

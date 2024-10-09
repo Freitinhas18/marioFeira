@@ -80,6 +80,13 @@
     width: 80px;
 }
 
+.caixa {
+    position: absolute;
+    bottom: 48px;
+    width: 80px;
+    display: none; /* A caixa não será visível até que seja ativada pelo JavaScript */
+}
+
 .mario {
     width: 150px;
     position: absolute;
@@ -172,6 +179,16 @@
     }
 
     to {
+        right: 100%;
+    }
+}
+
+@keyframes caixa-animation{
+    from{
+        right: -80px;
+    }
+    
+    to{
         right: 100%;
     }
 }
