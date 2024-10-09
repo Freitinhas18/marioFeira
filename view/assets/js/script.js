@@ -78,6 +78,8 @@ const pipeCreationTimeouts = [];
 const gameOver = (ranking) => {
   // Função que termina o jogo
   podeReiniciar = false;
+
+  /*
   $(".ranking").modal("show");
   const tbody = $("#tbody");
   tbody.empty();
@@ -92,7 +94,7 @@ const gameOver = (ranking) => {
             </tr>
         `);
   });
-};
+}; */
 
 const jump = () => {
   if (!jumping) {
