@@ -1,3 +1,4 @@
+const botao = document.querySelector('#chamaPHP');
 "use strict";
 /* Segue abaixo modelo de objeto para exibir ao final no ranking */
 const ranking = [
@@ -79,6 +80,8 @@ const gameOver = () => {
   // Função que termina o jogo
   podeReiniciar = false;
   console.log("Jogo acabou !")
+  document.getElementById('score').value = score;
+  botao.click();
 };
 
 const jump = () => {
