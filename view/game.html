@@ -4,18 +4,8 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="./assets/css/style.css" />
-        <link rel="stylesheet" href="./assets/css/teclado.css" />
         <title>Mario</title>
         <script src="./assets/js/jquery-3.7.1.min.js"></script>
-
-        <style>
-            .start-ground {
-                display: flex;
-                flex-direction: row;
-                position: absolute;
-                bottom: -0.8rem;
-            }
-        </style>
     </head>
     <body>
         <div class="start">
@@ -33,16 +23,18 @@
             <div class="start-ground"></div>
         </div>
 
-        <form action="../controller/ranking.php" method="POST"></form>
+        <div class="game-board">
+            <img src="./assets/images/clouds.png" class="clouds" />
+            <img src="./assets/images/mario.gif" class="mario" />
+            <img
+                src="./assets/images/game-over-text.png"
+                class="game-over-text"
+            />
+            <div class="game-board-ground"></div>
+            <div class="score">Pontuação: 0</div>
+            <div class="hearts"></div>
+        </div>
 
-        <script>
-            let contadorKey = 0;
-            document.addEventListener("keydown", (event) => {
-                window.location.href = "./cadastro.php";
-            });
-        </script>
-        <script src="./assets/js/startScreen.js">
-            <script src="./assets/js/teclado.js">
-        </script>
+        <script defer src="./assets/js/script.js"></script>
     </body>
 </html>

@@ -1,8 +1,35 @@
-.tecla-enviar {
-    font-size: 0px;
-    background-image: url(../imagens/enter.png);
-    flex: 1;
+body {
+    background-color: #1a1a1a; /* Cor de fundo para contraste */
+    color: white; /* Cor do texto padrão */
+    font-family: Arial, sans-serif; /* Fonte padrão */
 }
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 800px;
+}
+
+input {
+    bottom: 20px;
+    position: relative;
+    width: 90%;
+    height: 100px;
+    font-size: 7rem;
+    background-color: transparent;
+    color: yellow;
+    border: 1px solid #0e0e0e;
+    padding: 10px;
+    margin-bottom: 20px; /* Espaçamento inferior */
+}
+
+#pergunta {
+    font-size: 6rem;
+    margin-bottom: 20px; /* Espaçamento inferior */
+}
+
 .linha-teclado {
     display: flex;
     justify-content: center;
@@ -11,53 +38,40 @@
 
 .tecla {
     padding: 10px;
-    padding-bottom: 20px;
-    padding-left: 27px;
-    margin: 20px;
+    margin: 5px; /* Reduzir a margem para evitar quebra de linha */
     border: 1px solid #090909;
     cursor: pointer;
     text-align: center;
     height: 100px;
-    width: 100px;
+    width: 100px; /* Tamanho fixo das teclas */
     color: rgb(245, 245, 245);
     background-color: #0e0e0e;
     font-size: 5rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: transform 0.2s; /* Animação ao selecionar */
 }
 
 .tecla.selecionada {
     background-color: #202020;
     color: rgb(251, 255, 0);
     border: 1px solid whitesmoke;
-    transition: 0.3s;
-    height: 140px;
-    width: 140px;
-    margin: 0px;
-    font-size: 7rem;
-}
-.container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 800px;
-}
-input{
-    bottom: 20px;
-    position: relative;
-    width: 90%;
-    height: 100px;
-    font-size: 7rem;
-    background-color: transparent;
-    color: yellow;
-    border: #0e0e0e;
-    border-style: solid;
-    padding: 10px;
-    padding-bottom: 20px;
+    height: 120px; /* Aumentar a altura ao selecionar */
+    width: 120px; /* Aumentar a largura ao selecionar */
 }
 
-#pergunta{
-    font-size: 6rem;
+.tecla-enviar {
+    font-size: 0px; /* Ocultar texto para a tecla enviar */
+    background-image: url(../imagens/enter.png);
+    flex: 1;
+}
+
+#teclado {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza as linhas do teclado */
+    margin-top: 20px; /* Espaçamento superior */
+    max-width: 80vw; /* Largura máxima do teclado */
+    overflow: hidden; /* Para evitar que as teclas quebrem a linha */
 }

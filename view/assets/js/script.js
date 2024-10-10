@@ -1,44 +1,5 @@
-const botao = document.querySelector('#chamaPHP');
-"use strict";
-/* Segue abaixo modelo de objeto para exibir ao final no ranking */
-const ranking = [
-  {
-    id: 1,
-    nome: "Rocha - Mestre",
-    telefone: "(11) 99999-9999",
-    instagram: "@rochinha",
-    pontuacao: 100000000000,
-  },
-  {
-    id: 5,
-    nome: "Pedro Camilo",
-    telefone: "(11) 99999-9999",
-    instagram: "@pedro",
-    pontuacao: 99999,
-  },
-  {
-    id: 2,
-    nome: "Rebello",
-    telefone: "(11) 99999-9999",
-    instagram: "@rebello",
-    pontuacao: 99999,
-  },
-  {
-    id: 3,
-    nome: "Duds",
-    telefone: "(11) 99999-9999",
-    instagram: "@doodis",
-    pontuacao: 99999,
-  },
-  {
-    id: 4,
-    nome: "Murilao",
-    telefone: "(11) 99999-9999",
-    instagram: "murilo",
-    pontuacao: 9999,
-  },
-];
-// FIM DO OBJETO DE EXEMPLO
+const botao = document.querySelector("#chamaPHP");
+("use strict");
 
 const mario = document.querySelector(".mario");
 const marioStart = document.querySelector(".marioStart");
@@ -79,8 +40,8 @@ const pipeCreationTimeouts = [];
 const gameOver = () => {
   // Função que termina o jogo
   podeReiniciar = false;
-  console.log("Jogo acabou !")
-  document.getElementById('score').value = score;
+  console.log("Jogo acabou !");
+  document.getElementById("score").value = score;
   botao.click();
 };
 
@@ -229,7 +190,7 @@ const iniciarJogo = () => {
         audioDeath.play();
         podeReiniciar = true;
 
-        mario.style.width = "75px";
+        mario.style.width = "150px";
         tiraVida();
         gameOverFlag = true;
         clearInterval(loop);
@@ -292,10 +253,10 @@ document.addEventListener("keydown", (event) => {
     adicionaVida(3);
     console.log("Quantidade de vidas atual: " + vidas);
   } else {
-    if (event.code === "Space") {
+    if (event.code === "Enter") {
       jump();
     }
-    if (event.code === "Space" && podeReiniciar) {
+    if (event.code === "Enter" && podeReiniciar) {
       reiniciar();
     }
   }
