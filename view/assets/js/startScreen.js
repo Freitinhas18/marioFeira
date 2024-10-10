@@ -15,7 +15,7 @@ function gerarChao(groundElement) {
   const screenWidth = window.innerWidth;
 
   let groundImage = "";
-  for (let i = 0; i < 23; i++) {
+  for (let i = 0; i < 26; i++) {
     groundImage +=
       "<img src='./assets/images/ground.jpg' class='ground-img' />";
   }

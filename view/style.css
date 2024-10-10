@@ -1,0 +1,146 @@
+@font-face {
+    font-family: myFont2;
+    src: url(../fonte2.TTF);
+    font-weight: normal;
+    font-style: normal;
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: 0;
+    font-family: myFont2, sans-serif;
+}
+
+canvas{
+    background-color: black;
+    bottom: 10px;
+}
+body{
+    background-color: #202020;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    flex-direction: column;
+    overflow: hidden;
+}
+.score{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 1.8rem;
+    bottom: 20px;
+    position: relative;
+}
+
+.score--value{
+    font-weight: 700;
+    font-size: 4.5rem;
+    display: block;
+    margin-top: -10px;
+}
+
+.menu-screen{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 1;
+    border-radius: 15%;
+    top: 35%;
+    background-color: #191919;
+    width: 600px;
+    height:     210px;
+    padding: 50px;
+    overflow: hidden;
+    left: 100px;
+}
+.game-over{
+    top: 35%;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 3rem;
+}
+
+.final-score{
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+.btn-play{
+    border: none;
+    border-radius: 100px;
+    padding: 10px 15px 10px 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+
+}
+.info{
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 1900px;
+    height: 1000px;
+    border-radius: 100px;
+    color: white;
+    top: 30px;
+    overflow: hidden;
+}
+h1{
+    position: relative;
+    bottom: 30px;
+    font-size: 20srem;
+}
+form{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+
+}
+.container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+.tabela{
+    width: 40%;
+    height: 100%;
+    background-color: #202020;
+    left: 900px;
+    position: absolute;
+    top: 50px;
+    color: white;
+}
+table{
+    color: black;
+    width: 100%;
+}
+tr{
+    width: 100%;
+}
+td{
+    border: solid #363636;
+    height: 40px;
+    font-size: 3rem;
+    width: 50%;
+    color: whitesmoke;
+}
+.titulo{
+    background-color: #363636;
+    color: yellow;
+}
